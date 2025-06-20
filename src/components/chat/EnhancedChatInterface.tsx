@@ -571,4 +571,3 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
     </div>
   );
 };
-</invoke>
