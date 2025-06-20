@@ -237,6 +237,7 @@ class TavusAPI {
     const request: TavusConversationRequest = {
       replica_id: ZENKAI_CONFIG.replica_id,
       persona_id: ZENKAI_CONFIG.persona_id,
+      script: script, // Include the script parameter
       callback_url: this.webhookUrl ? `${this.webhookUrl}/conversation` : undefined,
     };
 
@@ -546,6 +547,7 @@ export const generateMentorVideo = async (
       const request: TavusConversationRequest = {
         replica_id: mentorConfig.replica_id,
         persona_id: mentorConfig.persona_id,
+        script: script, // Include the script parameter
       };
 
       return await tavusAPI.request<TavusVideoResponse>('/conversations', {
