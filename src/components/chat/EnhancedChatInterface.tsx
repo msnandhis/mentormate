@@ -32,26 +32,28 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
   const [mentor, setMentor] = useState<Mentor | null>(initialMentor || null);
   const [loading, setLoading] = useState(false);
   const [generatingVideo, setGeneratingVideo] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (mentor && user) {
+    if (mentor && user && !initialized) {
       initializeSession();
     }
-  }, [mentor, user]);
+  }, [mentor, user, initialized]);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
   useEffect(() => {
-    if (session) {
+    if (session && !initialized) {
       const subscription = chatMessages.subscribeToSession(session.id, (newMessage) => {
         setMessages(prev => [...prev, newMessage]);
         if (newMessage.sender_type === 'mentor') {
           setIsTyping(false);
+          setGeneratingVideo(false);
           if (voiceEnabled && newMessage.voice_url) {
             playVoiceMessage(newMessage.voice_url);
           }
@@ -62,10 +64,10 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
         subscription.unsubscribe();
       };
     }
-  }, [session, voiceEnabled]);
+  }, [session, voiceEnabled, initialized]);
 
   const initializeSession = async () => {
-    if (!user?.id || !mentor) return;
+    if (!user?.id || !mentor || initialized) return;
 
     setLoading(true);
     try {
@@ -78,29 +80,76 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
       if (newSession) {
         setSession(newSession);
         setIsConnected(true);
+        setInitialized(true);
         
-        // Load initial messages
+        // Load any existing messages first
         const { messages: sessionMessages } = await chatMessages.getBySession(newSession.id);
         setMessages(sessionMessages);
 
-        // Send welcome message with video if enabled
-        await sendMentorMessage(
-          `Hello! I'm ${mentor.name}, your ${mentor.category} mentor. I'm here to help you with real-time guidance and support. How can I assist you today?`,
-          true // Generate video for welcome message
-        );
+        // Add immediate welcome message to state (don't wait for database)
+        const welcomeMessage: ChatMessage = {
+          id: `welcome-${Date.now()}`,
+          session_id: newSession.id,
+          sender_type: 'mentor',
+          message_type: 'text',
+          content: getWelcomeMessage(mentor),
+          created_at: new Date().toISOString(),
+        };
+        
+        setMessages(prev => [...prev, welcomeMessage]);
+
+        // Then save to database and potentially generate video
+        setTimeout(async () => {
+          await sendMentorMessage(getWelcomeMessage(mentor), videoEnabled);
+        }, 1000);
       }
     } catch (error) {
       console.error('Error initializing chat session:', error);
+      // Add error message to UI
+      const errorMessage: ChatMessage = {
+        id: `error-${Date.now()}`,
+        session_id: 'error',
+        sender_type: 'system',
+        message_type: 'text',
+        content: 'Sorry, there was an issue connecting. Please try again.',
+        created_at: new Date().toISOString(),
+      };
+      setMessages([errorMessage]);
     } finally {
       setLoading(false);
     }
+  };
+
+  const getWelcomeMessage = (mentor: Mentor): string => {
+    const welcomeMessages = {
+      'Coach Lex': "Hey there! 💪 I'm Coach Lex, your fitness mentor! Ready to crush some goals together? I'm here to keep you motivated and moving. What's your fitness focus today?",
+      'ZenKai': "Hello, and welcome. I'm ZenKai, your mindful wellness guide. I'm here to help you find balance and peace in your daily journey. Take a deep breath, and let's explore how I can support your well-being today.",
+      'Prof. Ada': "Greetings! I'm Professor Ada, your study and learning mentor. I'm here to help you optimize your learning strategies and boost your productivity. What academic or learning goals would you like to tackle today?",
+      'No-BS Tony': "Alright, let's cut to the chase. I'm Tony, your no-nonsense career coach. I'm here to push you toward real results and professional growth. What career goal are we going to make happen today?",
+    };
+
+    return welcomeMessages[mentor.name as keyof typeof welcomeMessages] || 
+           `Hello! I'm ${mentor.name}, your ${mentor.category} mentor. I'm here to provide real-time guidance and support. How can I help you achieve your goals today?`;
   };
 
   const sendMessage = async (content: string, messageType: 'text' | 'voice' = 'text', voiceUrl?: string) => {
     if (!session || !content.trim()) return;
 
     try {
-      // Send user message
+      // Add user message to UI immediately
+      const userMessage: ChatMessage = {
+        id: `user-${Date.now()}`,
+        session_id: session.id,
+        sender_type: 'user',
+        message_type: messageType,
+        content: content.trim(),
+        voice_url: voiceUrl,
+        created_at: new Date().toISOString(),
+      };
+      
+      setMessages(prev => [...prev, userMessage]);
+
+      // Save to database
       await chatMessages.create({
         session_id: session.id,
         sender_type: 'user',
@@ -134,6 +183,7 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
       if (generateVideo && mentor.avatar_config) {
         setGeneratingVideo(true);
         try {
+          console.log(`Generating video for ${mentor.name} with content:`, content);
           const videoResponse = await generateMentorVideo(
             mentor.name,
             mentor.avatar_config,
@@ -147,12 +197,29 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
         } catch (videoError) {
           console.error('Error generating video:', videoError);
           // Continue without video
-        } finally {
-          setGeneratingVideo(false);
         }
       }
 
-      // Send mentor message
+      // Add mentor message to UI
+      const mentorMessage: ChatMessage = {
+        id: `mentor-${Date.now()}`,
+        session_id: session.id,
+        sender_type: 'mentor',
+        message_type: videoUrl ? 'video' : 'text',
+        content,
+        voice_url: videoUrl,
+        metadata: {
+          video_url: videoUrl,
+          mentor_avatar_config: mentor.avatar_config,
+        },
+        created_at: new Date().toISOString(),
+      };
+
+      setMessages(prev => [...prev, mentorMessage]);
+      setIsTyping(false);
+      setGeneratingVideo(false);
+
+      // Save to database
       await chatMessages.create({
         session_id: session.id,
         sender_type: 'mentor',
@@ -178,32 +245,39 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
     // Enhanced mentor-specific responses based on their configurations
     const mentorPrompt = mentors.generateChatPrompt(mentor, `User said: "${userMessage}"`);
     
-    // In a real implementation, this would call your AI service with the mentor's prompt
-    // For now, we'll use enhanced mentor-specific responses
+    // Enhanced mentor-specific responses
     const responses = {
       'Coach Lex': [
         "That's the spirit! Let's channel that energy into action! 💪 What's your next move?",
         "I love that mindset! You're already on the right track. Let's build on this momentum!",
         "YES! That's exactly what I want to hear! How can we turn this into your next workout win?",
         "You're crushing it! Keep that fire burning - what challenge should we tackle next?",
+        "Amazing progress! Let's keep this energy flowing. What's your fitness goal for today?",
+        "I can feel your determination! That's what separates champions from everyone else. What's next?",
       ],
       'ZenKai': [
         "Thank you for sharing that with me. Take a deep breath and let's explore this together.",
         "I can sense the energy in your words. How are you feeling in this moment?",
         "That's a beautiful insight. What would bring you the most peace right now?",
         "I appreciate your openness. Let's approach this with mindfulness and compassion.",
+        "Your awareness is growing. Notice how this moment feels in your body and mind.",
+        "That's wonderful progress on your mindfulness journey. What intention would you like to set?",
       ],
       'Prof. Ada': [
         "Excellent observation. Let's analyze this systematically and create a strategic approach.",
         "I can see you're thinking critically about this. What patterns do you notice?",
         "That's a valuable data point. How does this connect to your learning objectives?",
         "Great question! Let's break this down into manageable components and optimize your approach.",
+        "Your analytical thinking is improving. What's the next logical step in your learning process?",
+        "Fascinating insight! Let's build a framework around this concept to maximize your understanding.",
       ],
       'No-BS Tony': [
         "Cut to the chase - what specific action are you going to take about this?",
         "I hear you talking, but I need to see results. What's your timeline?",
         "Good. Now stop thinking and start doing. What's your next concrete step?",
         "Enough analysis. You know what needs to be done. When are you starting?",
+        "Results speak louder than words. What measurable outcome are you committing to?",
+        "Time for action. No more excuses. What are you going to accomplish this week?",
       ],
     };
 
@@ -355,7 +429,7 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
           {loading ? (
             <div className="flex items-center justify-center h-full">
               <div className="text-center">
@@ -367,6 +441,29 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
             </div>
           ) : (
             <>
+              {messages.length === 0 && !loading && (
+                <div className="text-center py-8">
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-gradient-to-br ${mentor.gradient || 'from-primary-500 to-primary-600'}`}>
+                    {isZenKai ? (
+                      <Sparkles className="w-8 h-8 text-white" />
+                    ) : (
+                      <span className="font-heading font-bold text-white text-xl">
+                        {mentor.name.charAt(0)}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-heading font-semibold text-foreground mb-2">
+                    Welcome to Live Chat with {mentor.name}
+                  </h3>
+                  <p className="font-body text-neutral-600">
+                    {isZenKai 
+                      ? 'Your mindful wellness guide is ready to help you find balance and peace.'
+                      : `Your ${mentor.category} mentor is ready to provide personalized guidance.`
+                    }
+                  </p>
+                </div>
+              )}
+
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -378,7 +475,7 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
                         ? 'bg-primary text-white'
                         : message.sender_type === 'system'
                         ? 'bg-neutral-100 text-neutral-600 text-center text-sm'
-                        : 'bg-neutral-100 text-foreground'
+                        : 'bg-white text-foreground shadow-sm border'
                     }`}
                   >
                     {/* Video Message */}
@@ -387,7 +484,7 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
                         <VideoPlayer
                           src={message.metadata.video_url}
                           title={`${mentor.name} Response`}
-                          className="aspect-video max-w-sm"
+                          className="aspect-video max-w-sm rounded-lg"
                           autoPlay={true}
                         />
                       </div>
@@ -405,7 +502,7 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
               
               {(isTyping || generatingVideo) && (
                 <div className="flex justify-start">
-                  <div className="bg-neutral-100 text-foreground px-4 py-3 rounded-lg">
+                  <div className="bg-white text-foreground px-4 py-3 rounded-lg shadow-sm border">
                     <div className="flex items-center space-x-2">
                       <div className="flex space-x-1">
                         <div className="w-2 h-2 bg-neutral-400 rounded-full animate-bounce"></div>
@@ -427,7 +524,7 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-border bg-white">
           <div className="flex items-center space-x-2">
             <div className="flex-1 relative">
               <input
@@ -474,3 +571,4 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
     </div>
   );
 };
+</invoke>
