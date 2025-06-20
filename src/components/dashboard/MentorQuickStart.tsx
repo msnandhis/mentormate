@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Video, MessageSquare, Play, Users, Sparkles, Activity, CheckCircle, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { mentors, Mentor } from '../../lib/supabase';
-import { tavusAPI } from '../../lib/tavus';
-import { LiveVideoInterface } from '../video/LiveVideoInterface';
+import { tavusConversationsAPI } from '../../lib/tavus-conversations';
+import { LiveConversationInterface } from '../conversation/LiveConversationInterface';
 
 export const MentorQuickStart: React.FC = () => {
   const { user } = useAuth();
   const [availableMentors, setAvailableMentors] = useState<Mentor[]>([]);
   const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null);
-  const [showVideoInterface, setShowVideoInterface] = useState(false);
+  const [showConversationInterface, setShowConversationInterface] = useState(false);
   const [loading, setLoading] = useState(true);
   const [apiStatus, setApiStatus] = useState<'checking' | 'connected' | 'error'>('checking');
-  const [apiQuota, setApiQuota] = useState<any>(null);
 
   useEffect(() => {
     loadMentors();
@@ -22,7 +21,11 @@ export const MentorQuickStart: React.FC = () => {
   const loadMentors = async () => {
     try {
       const { mentors: mentorList } = await mentors.getAll();
-      setAvailableMentors(mentorList.filter(m => !m.is_custom));
+      // Filter mentors that support live conversations
+      const liveConversationMentors = mentorList.filter(
+        m => !m.is_custom && m.avatar_config?.replica_id && m.avatar_config?.persona_id
+      );
+      setAvailableMentors(liveConversationMentors);
     } catch (error) {
       console.error('Error loading mentors:', error);
     } finally {
@@ -32,31 +35,25 @@ export const MentorQuickStart: React.FC = () => {
 
   const checkApiStatus = async () => {
     try {
-      const health = await tavusAPI.checkHealth();
-      if (health.status === 'mock') {
+      if (!tavusConversationsAPI.isConfigured()) {
         setApiStatus('error');
-      } else {
-        setApiStatus('connected');
-        // Get quota info
-        try {
-          const quota = await tavusAPI.getQuota();
-          setApiQuota(quota);
-        } catch (quotaError) {
-          console.warn('Could not fetch quota:', quotaError);
-        }
+        return;
       }
+      
+      // For production, you'd check the actual API health here
+      setApiStatus('connected');
     } catch (error) {
       setApiStatus('error');
     }
   };
 
-  const startVideoChat = (mentor: Mentor) => {
+  const startLiveConversation = (mentor: Mentor) => {
     setSelectedMentor(mentor);
-    setShowVideoInterface(true);
+    setShowConversationInterface(true);
   };
 
-  const closeVideoInterface = () => {
-    setShowVideoInterface(false);
+  const closeConversationInterface = () => {
+    setShowConversationInterface(false);
     setSelectedMentor(null);
   };
 
@@ -74,11 +71,11 @@ export const MentorQuickStart: React.FC = () => {
   const getApiStatusText = () => {
     switch (apiStatus) {
       case 'connected':
-        return `Tavus API Connected${apiQuota ? ` • ${apiQuota.videos_remaining} videos remaining` : ''}`;
+        return 'Live Conversations Ready';
       case 'error':
-        return 'API Configuration Required';
+        return 'API Setup Required';
       default:
-        return 'Checking API Status...';
+        return 'Checking Status...';
     }
   };
 
@@ -102,9 +99,9 @@ export const MentorQuickStart: React.FC = () => {
       <div className="bg-white rounded-xl p-6 border border-border">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-3">
-            <Users className="w-6 h-6 text-primary" />
+            <Video className="w-6 h-6 text-primary" />
             <h3 className="font-heading font-semibold text-xl text-foreground">
-              Start Live Video Chat
+              Live Video Conversations
             </h3>
           </div>
           <div className="text-right text-sm">
@@ -123,7 +120,7 @@ export const MentorQuickStart: React.FC = () => {
               <div>
                 <h4 className="font-body font-medium text-yellow-800">API Setup Required</h4>
                 <p className="font-body text-yellow-700 text-sm mt-1">
-                  To use live video chat, please configure your Tavus API key in Settings → Integrations.
+                  Configure your Tavus API key in Settings → Integrations to enable live conversations.
                 </p>
               </div>
             </div>
@@ -131,10 +128,10 @@ export const MentorQuickStart: React.FC = () => {
         )}
 
         <p className="font-body text-neutral-600 mb-6">
-          Choose a mentor for instant live video conversation with AI-powered responses.
-          {apiStatus === 'connected' && apiQuota && (
+          Start live video conversations with AI mentors using Tavus's conversational video interface.
+          {apiStatus === 'connected' && (
             <span className="text-green-600 ml-1">
-              ✅ Ready for video generation
+              ✅ Ready for live conversations
             </span>
           )}
         </p>
@@ -144,7 +141,7 @@ export const MentorQuickStart: React.FC = () => {
           {availableMentors.map((mentor) => (
             <div
               key={mentor.id}
-              onClick={() => apiStatus === 'connected' && startVideoChat(mentor)}
+              onClick={() => apiStatus === 'connected' && startLiveConversation(mentor)}
               className={`p-4 border-2 border-border rounded-xl transition-all duration-300 ${
                 apiStatus === 'connected' 
                   ? 'cursor-pointer hover:border-primary hover:shadow-lg hover:-translate-y-1' 
@@ -175,7 +172,7 @@ export const MentorQuickStart: React.FC = () => {
                   {mentor.category}
                 </p>
 
-                {/* Quick Action */}
+                {/* Live Chat Button */}
                 <div className={`flex items-center justify-center space-x-1 text-xs font-medium px-2 py-1 rounded-full ${
                   apiStatus === 'connected' ? (
                     mentor.name === 'ZenKai' 
@@ -184,25 +181,37 @@ export const MentorQuickStart: React.FC = () => {
                   ) : 'bg-gray-100 text-gray-500'
                 }`}>
                   <Play className="w-3 h-3" />
-                  <span>{apiStatus === 'connected' ? 'Start Chat' : 'Setup Required'}</span>
+                  <span>{apiStatus === 'connected' ? 'Start Live Chat' : 'Setup Required'}</span>
                 </div>
 
                 {/* Special Badge for ZenKai */}
                 {mentor.name === 'ZenKai' && (
                   <div className="mt-2 text-xs text-blue-600 font-medium">
-                    ✨ Enhanced AI
+                    ✨ Advanced AI Persona
                   </div>
                 )}
 
-                {/* Video Support Indicator */}
-                {apiStatus === 'connected' && mentor.avatar_config && (
+                {/* Live Support Indicator */}
+                {apiStatus === 'connected' && mentor.avatar_config?.replica_id && (
                   <div className="mt-1 text-xs text-green-600">
-                    🎥 Video Ready
+                    🎥 Live Ready
                   </div>
                 )}
               </div>
             </div>
           ))}
+
+          {availableMentors.length === 0 && (
+            <div className="col-span-full text-center py-8">
+              <Video className="w-12 h-12 text-neutral-300 mx-auto mb-4" />
+              <h4 className="font-heading font-semibold text-foreground mb-2">
+                No Live Mentors Available
+              </h4>
+              <p className="font-body text-neutral-600">
+                Mentors are being configured for live conversations. Check back soon!
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Feature Highlights */}
@@ -212,10 +221,10 @@ export const MentorQuickStart: React.FC = () => {
               <Video className={`w-5 h-5 ${apiStatus === 'connected' ? 'text-primary' : 'text-gray-400'}`} />
               <div>
                 <h5 className={`font-body font-semibold ${apiStatus === 'connected' ? 'text-primary-800' : 'text-gray-600'}`}>
-                  Live Video
+                  Live Video Chat
                 </h5>
                 <p className={`font-body text-xs ${apiStatus === 'connected' ? 'text-primary-700' : 'text-gray-500'}`}>
-                  {apiStatus === 'connected' ? 'Real-time video responses' : 'Requires API setup'}
+                  {apiStatus === 'connected' ? 'Real-time conversations' : 'Requires API setup'}
                 </p>
               </div>
             </div>
@@ -226,43 +235,43 @@ export const MentorQuickStart: React.FC = () => {
               <MessageSquare className="w-5 h-5 text-blue-600" />
               <div>
                 <h5 className="font-body font-semibold text-blue-800">Instant Responses</h5>
-                <p className="font-body text-xs text-blue-700">AI-powered conversations</p>
+                <p className="font-body text-xs text-blue-700">AI-powered interactions</p>
               </div>
             </div>
           </div>
           
           <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg">
             <div className="flex items-center space-x-3">
-              <Sparkles className="w-5 h-5 text-purple-600" />
+              <Users className="w-5 h-5 text-purple-600" />
               <div>
-                <h5 className="font-body font-semibold text-purple-800">Personalized</h5>
-                <p className="font-body text-xs text-purple-700">Tailored to your goals</p>
+                <h5 className="font-body font-semibold text-purple-800">Multiple Mentors</h5>
+                <p className="font-body text-xs text-purple-700">Choose your style</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* API Status Summary */}
-        {apiStatus === 'connected' && apiQuota && (
+        {apiStatus === 'connected' && (
           <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <CheckCircle className="w-5 h-5 text-green-600" />
-                <span className="font-body font-medium text-green-800">Ready for Live Video</span>
+                <span className="font-body font-medium text-green-800">Live Conversations Ready</span>
               </div>
               <div className="text-sm text-green-700">
-                {apiQuota.videos_remaining} videos • {apiQuota.voice_minutes_remaining} voice minutes remaining
+                Tavus API configured • {availableMentors.length} mentors available
               </div>
             </div>
           </div>
         )}
       </div>
 
-      {/* Live Video Interface */}
-      {showVideoInterface && selectedMentor && (
-        <LiveVideoInterface
+      {/* Live Conversation Interface */}
+      {showConversationInterface && selectedMentor && (
+        <LiveConversationInterface
           mentor={selectedMentor}
-          onClose={closeVideoInterface}
+          onClose={closeConversationInterface}
         />
       )}
     </>

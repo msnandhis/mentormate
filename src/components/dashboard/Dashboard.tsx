@@ -5,14 +5,14 @@ import { checkins } from '../../lib/supabase';
 import { CheckinForm } from '../checkin/CheckinForm';
 import { CheckinHistory } from './CheckinHistory';
 import { MentorInsights } from '../mentors/MentorInsights';
-import { ChatSessionManager } from '../chat/ChatSessionManager';
+import { ConversationManager } from '../conversation/ConversationManager';
 import { MentorQuickStart } from './MentorQuickStart';
 import { ApiStatusDashboard } from './ApiStatusDashboard';
 
 export const Dashboard: React.FC = () => {
   const { profile, user } = useAuth();
   const [showCheckinForm, setShowCheckinForm] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'history' | 'mentors' | 'chat'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'live-chat' | 'history' | 'mentors'>('overview');
   const [stats, setStats] = useState({
     streak: 0,
     totalCheckins: 0,
@@ -121,16 +121,16 @@ export const Dashboard: React.FC = () => {
             Overview
           </button>
           <button
-            onClick={() => setActiveTab('chat')}
+            onClick={() => setActiveTab('live-chat')}
             className={`px-6 py-3 rounded-md font-body transition-colors ${
-              activeTab === 'chat'
+              activeTab === 'live-chat'
                 ? 'bg-primary text-white shadow-sm'
                 : 'text-neutral-600 hover:text-foreground'
             }`}
           >
             <div className="flex items-center space-x-2">
               <Video className="w-4 h-4" />
-              <span>Live Video Chat</span>
+              <span>Live Chat</span>
             </div>
           </button>
           <button
@@ -204,7 +204,7 @@ export const Dashboard: React.FC = () => {
                   Jump into a quick conversation with any mentor for instant guidance.
                 </p>
                 <button 
-                  onClick={() => setActiveTab('chat')}
+                  onClick={() => setActiveTab('live-chat')}
                   className="w-full font-body px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
                 >
                   Start Quick Chat
@@ -298,7 +298,7 @@ export const Dashboard: React.FC = () => {
           </>
         )}
 
-        {activeTab === 'chat' && <MentorQuickStart />}
+        {activeTab === 'live-chat' && <ConversationManager />}
         
         {activeTab === 'history' && <CheckinHistory />}
         
