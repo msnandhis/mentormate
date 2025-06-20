@@ -7,6 +7,7 @@ import { CheckinHistory } from './CheckinHistory';
 import { MentorInsights } from '../mentors/MentorInsights';
 import { ChatSessionManager } from '../chat/ChatSessionManager';
 import { MentorQuickStart } from './MentorQuickStart';
+import { ApiStatusDashboard } from './ApiStatusDashboard';
 
 export const Dashboard: React.FC = () => {
   const { profile, user } = useAuth();
@@ -157,6 +158,11 @@ export const Dashboard: React.FC = () => {
         {/* Tab Content */}
         {activeTab === 'overview' && (
           <>
+            {/* API Status - Prominent Display */}
+            <div className="mb-8">
+              <ApiStatusDashboard />
+            </div>
+
             {/* Live Video Chat Section - Prominent placement */}
             <div className="mb-8">
               <MentorQuickStart />

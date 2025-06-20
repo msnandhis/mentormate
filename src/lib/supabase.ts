@@ -52,6 +52,14 @@ export interface Mentor {
     clothing: string;
     background: string;
     energy: string;
+    persona_id?: string;
+    replica_id?: string;
+    voice_settings?: {
+      stability: number;
+      similarity_boost: number;
+      style: number;
+      use_speaker_boost?: boolean;
+    };
   };
   created_at?: string;
 }
@@ -142,11 +150,15 @@ export interface ChatMessage {
   id: string;
   session_id: string;
   sender_type: 'user' | 'mentor' | 'system';
-  message_type: 'text' | 'voice' | 'system';
+  message_type: 'text' | 'voice' | 'system' | 'video';
   content: string;
   voice_url?: string;
   duration_ms?: number;
-  metadata?: any;
+  metadata?: {
+    video_url?: string;
+    mentor_avatar_config?: any;
+    [key: string]: any;
+  };
   created_at: string;
 }
 
@@ -624,6 +636,17 @@ export const mentorResponses = {
     return { data, error };
   },
 
+  update: async (responseId: string, updates: Partial<MentorResponse>) => {
+    const { data, error } = await supabase
+      .from('mentor_responses')
+      .update(updates)
+      .eq('id', responseId)
+      .select()
+      .single();
+    
+    return { data, error };
+  },
+
   getByCheckin: async (checkinId: string): Promise<{ response: MentorResponse | null; error: any }> => {
     const { data: response, error } = await supabase
       .from('mentor_responses')
@@ -870,7 +893,7 @@ export const chatMessages = {
   create: async (messageData: {
     session_id: string;
     sender_type: 'user' | 'mentor' | 'system';
-    message_type: 'text' | 'voice' | 'system';
+    message_type: 'text' | 'voice' | 'system' | 'video';
     content: string;
     voice_url?: string;
     duration_ms?: number;
