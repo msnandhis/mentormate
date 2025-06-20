@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, Video, Mic, MicOff, Volume2, VolumeX, Loader2, AlertCircle, CheckCircle, RefreshCw } from 'lucide-react';
+import { Play, Pause, Video, Mic, MicOff, Volume2, VolumeX, Loader2, AlertCircle, CheckCircle, RefreshCw, MessageSquare } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { mentors, Mentor } from '../../lib/supabase';
 import { tavusAPI, generateMentorVideo, pollVideoStatus } from '../../lib/tavus';
