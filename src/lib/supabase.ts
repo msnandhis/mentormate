@@ -124,6 +124,9 @@ export interface MentorResponse {
     prompt_tokens?: number;
     completion_tokens?: number;
     model_used?: string;
+    ai_generated?: boolean;
+    generation_timestamp?: string;
+    is_fallback?: boolean;
   };
   tavus_video_id?: string;
   video_url?: string;
@@ -157,6 +160,8 @@ export interface ChatMessage {
   metadata?: {
     video_url?: string;
     mentor_avatar_config?: any;
+    ai_generated?: boolean;
+    model_used?: string;
     [key: string]: any;
   };
   created_at: string;
@@ -330,6 +335,7 @@ export const mentors = {
     return { mentors: mentors || [], error };
   },
 
+  // Enhanced prompt generation for AI integration
   generatePrompt: (mentor: Mentor, checkinData: {
     mood_score: number;
     goals: GoalStatus[];
@@ -362,8 +368,8 @@ export const mentors = {
       });
     }
     
-    // Mentor-specific prompt template
-    const template = mentor.prompt_template || 'You are a supportive AI mentor. Provide encouraging, personalized advice based on the user\'s check-in. Keep responses under 150 words.';
+    // Mentor-specific prompt template (now handled by AI service)
+    const template = mentor.prompt_template || 'You are a supportive AI mentor. Provide encouraging, personalized advice based on the user\'s check-in. Keep responses under 200 words.';
     
     return `${template}
 
@@ -465,7 +471,7 @@ export const goals = {
   },
 };
 
-// Enhanced Check-in helpers with mentor integration
+// Enhanced Check-in helpers with AI integration
 export const checkins = {
   getAll: async (userId: string, limit = 20): Promise<{ checkins: Checkin[]; error: any }> => {
     const { data: checkins, error } = await supabase
@@ -613,7 +619,7 @@ export const checkins = {
   },
 };
 
-// Mentor Response helpers with video support
+// Mentor Response helpers with enhanced AI support
 export const mentorResponses = {
   create: async (responseData: {
     checkin_id: string;
@@ -814,7 +820,7 @@ export const videoGenerations = {
   },
 };
 
-// Real-time Chat helpers
+// Real-time Chat helpers with AI integration
 export const chatSessions = {
   create: async (sessionData: {
     user_id: string;

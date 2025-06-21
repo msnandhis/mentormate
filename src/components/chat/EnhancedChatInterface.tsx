@@ -3,6 +3,7 @@ import { Send, Mic, MicOff, Phone, PhoneOff, Volume2, VolumeX, Minimize2, Video,
 import { useAuth } from '../../contexts/AuthContext';
 import { chatSessions, chatMessages, mentors, ChatSession, ChatMessage, Mentor } from '../../lib/supabase';
 import { generateMentorVideo, tavusAPI } from '../../lib/tavus';
+import { generateAIChatResponse } from '../../lib/ai-mentor';
 import { VoiceRecorder } from './VoiceRecorder';
 import { MentorAvatar } from './MentorAvatar';
 import { VideoPlayer } from '../video/VideoPlayer';
@@ -161,15 +162,31 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
       setNewMessage('');
       setIsTyping(true);
 
-      // Generate mentor response
-      setTimeout(async () => {
-        const mentorResponse = await generateMentorResponse(content);
-        await sendMentorMessage(mentorResponse, videoEnabled);
-      }, 1000 + Math.random() * 2000);
+      // Generate AI mentor response with conversation history
+      const conversationHistory = messages.slice(-10); // Get last 10 messages for context
+      const mentorResponse = await generateAIChatResponse(
+        mentor, 
+        content, 
+        conversationHistory,
+        user?.id
+      );
+      
+      await sendMentorMessage(mentorResponse, videoEnabled);
 
     } catch (error) {
       console.error('Error sending message:', error);
       setIsTyping(false);
+      
+      // Add error message
+      const errorMessage: ChatMessage = {
+        id: `error-${Date.now()}`,
+        session_id: session.id,
+        sender_type: 'system',
+        message_type: 'text',
+        content: 'Sorry, I encountered an issue. Please try again.',
+        created_at: new Date().toISOString(),
+      };
+      setMessages(prev => [...prev, errorMessage]);
     }
   };
 
@@ -211,6 +228,8 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
         metadata: {
           video_url: videoUrl,
           mentor_avatar_config: mentor.avatar_config,
+          ai_generated: true,
+          model_used: 'gpt-4o-mini',
         },
         created_at: new Date().toISOString(),
       };
@@ -229,6 +248,8 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
         metadata: {
           video_url: videoUrl,
           mentor_avatar_config: mentor.avatar_config,
+          ai_generated: true,
+          model_used: 'gpt-4o-mini',
         },
       });
 
@@ -237,57 +258,6 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
       setIsTyping(false);
       setGeneratingVideo(false);
     }
-  };
-
-  const generateMentorResponse = async (userMessage: string): Promise<string> => {
-    if (!mentor) return "I'm here to help!";
-
-    // Enhanced mentor-specific responses based on their configurations
-    const mentorPrompt = mentors.generateChatPrompt(mentor, `User said: "${userMessage}"`);
-    
-    // Enhanced mentor-specific responses
-    const responses = {
-      'Coach Lex': [
-        "That's the spirit! Let's channel that energy into action! 💪 What's your next move?",
-        "I love that mindset! You're already on the right track. Let's build on this momentum!",
-        "YES! That's exactly what I want to hear! How can we turn this into your next workout win?",
-        "You're crushing it! Keep that fire burning - what challenge should we tackle next?",
-        "Amazing progress! Let's keep this energy flowing. What's your fitness goal for today?",
-        "I can feel your determination! That's what separates champions from everyone else. What's next?",
-      ],
-      'ZenKai': [
-        "Thank you for sharing that with me. Take a deep breath and let's explore this together.",
-        "I can sense the energy in your words. How are you feeling in this moment?",
-        "That's a beautiful insight. What would bring you the most peace right now?",
-        "I appreciate your openness. Let's approach this with mindfulness and compassion.",
-        "Your awareness is growing. Notice how this moment feels in your body and mind.",
-        "That's wonderful progress on your mindfulness journey. What intention would you like to set?",
-      ],
-      'Prof. Ada': [
-        "Excellent observation. Let's analyze this systematically and create a strategic approach.",
-        "I can see you're thinking critically about this. What patterns do you notice?",
-        "That's a valuable data point. How does this connect to your learning objectives?",
-        "Great question! Let's break this down into manageable components and optimize your approach.",
-        "Your analytical thinking is improving. What's the next logical step in your learning process?",
-        "Fascinating insight! Let's build a framework around this concept to maximize your understanding.",
-      ],
-      'No-BS Tony': [
-        "Cut to the chase - what specific action are you going to take about this?",
-        "I hear you talking, but I need to see results. What's your timeline?",
-        "Good. Now stop thinking and start doing. What's your next concrete step?",
-        "Enough analysis. You know what needs to be done. When are you starting?",
-        "Results speak louder than words. What measurable outcome are you committing to?",
-        "Time for action. No more excuses. What are you going to accomplish this week?",
-      ],
-    };
-
-    const mentorResponses = responses[mentor.name as keyof typeof responses] || [
-      "That's really interesting. Tell me more about that.",
-      "I understand. How can I best support you with this?",
-      "Thanks for sharing. What would be most helpful right now?",
-    ];
-
-    return mentorResponses[Math.floor(Math.random() * mentorResponses.length)];
   };
 
   const handleVoiceMessage = async (audioBlob: Blob, transcript: string) => {
@@ -377,7 +347,7 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
                 <div className="flex items-center space-x-2">
                   <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-400' : 'bg-red-400'} animate-pulse`} />
                   <span className="font-body text-sm opacity-90">
-                    {isConnected ? 'Live Video Chat' : 'Connecting...'}
+                    {isConnected ? 'Live AI Chat' : 'Connecting...'}
                   </span>
                   {videoEnabled && (
                     <>
@@ -453,12 +423,12 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
                     )}
                   </div>
                   <h3 className="font-heading font-semibold text-foreground mb-2">
-                    Welcome to Live Chat with {mentor.name}
+                    Welcome to AI Chat with {mentor.name}
                   </h3>
                   <p className="font-body text-neutral-600">
                     {isZenKai 
-                      ? 'Your mindful wellness guide is ready to help you find balance and peace.'
-                      : `Your ${mentor.category} mentor is ready to provide personalized guidance.`
+                      ? 'Your mindful wellness guide powered by advanced AI is ready to help you find balance and peace.'
+                      : `Your ${mentor.category} mentor powered by AI is ready to provide personalized guidance.`
                     }
                   </p>
                 </div>
@@ -491,11 +461,22 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
                     )}
 
                     <p className="font-body">{message.content}</p>
-                    <p className={`text-xs mt-1 ${
-                      message.sender_type === 'user' ? 'text-white/70' : 'text-neutral-500'
-                    }`}>
-                      {formatTime(message.created_at)}
-                    </p>
+                    
+                    <div className="flex items-center justify-between mt-1">
+                      <p className={`text-xs ${
+                        message.sender_type === 'user' ? 'text-white/70' : 'text-neutral-500'
+                      }`}>
+                        {formatTime(message.created_at)}
+                      </p>
+                      
+                      {/* AI indicator for mentor messages */}
+                      {message.sender_type === 'mentor' && message.metadata?.ai_generated && (
+                        <span className="text-xs text-blue-600 font-medium flex items-center space-x-1">
+                          <Sparkles className="w-3 h-3" />
+                          <span>AI</span>
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -510,9 +491,13 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
                         <div className="w-2 h-2 bg-neutral-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                       </div>
                       <span className="font-body text-sm">
-                        {generatingVideo ? `${mentor.name} is creating a video response...` : `${mentor.name} is typing...`}
+                        {generatingVideo ? `${mentor.name} is creating an AI video response...` : `${mentor.name} is thinking...`}
                       </span>
                       {generatingVideo && isZenKai && <Sparkles className="w-4 h-4 text-blue-500" />}
+                      <div className="flex items-center space-x-1">
+                        <Sparkles className="w-3 h-3 text-blue-500" />
+                        <span className="text-xs text-blue-600">AI</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -556,13 +541,16 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
           {/* Chat Status */}
           <div className="flex items-center justify-between mt-2 text-xs text-neutral-500">
             <div className="flex items-center space-x-4">
-              <span>💬 Real-time chat</span>
+              <span className="flex items-center space-x-1">
+                <Sparkles className="w-3 h-3 text-blue-500" />
+                <span>AI-powered chat</span>
+              </span>
               {videoEnabled && <span>🎥 Video responses enabled</span>}
               {voiceEnabled && <span>🔊 Voice messages enabled</span>}
             </div>
             <div>
               {mentor.name === 'ZenKai' && (
-                <span className="text-blue-600">✨ Enhanced ZenKai experience</span>
+                <span className="text-blue-600">✨ Enhanced ZenKai AI experience</span>
               )}
             </div>
           </div>
