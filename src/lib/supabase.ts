@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { externalDataService } from './external-data';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
@@ -293,7 +294,7 @@ export const profiles = {
   },
 };
 
-// Enhanced Mentor helpers with category-specific logic
+// Enhanced Mentor helpers with category-specific logic and external data integration
 export const mentors = {
   getAll: async (): Promise<{ mentors: Mentor[]; error: any }> => {
     const { data: mentors, error } = await supabase
@@ -335,14 +336,15 @@ export const mentors = {
     return { mentors: mentors || [], error };
   },
 
-  // Enhanced prompt generation for AI integration
-  generatePrompt: (mentor: Mentor, checkinData: {
+  // Enhanced prompt generation with external data integration
+  generatePrompt: async (mentor: Mentor, checkinData: {
     mood_score: number;
     goals: GoalStatus[];
     reflection?: string;
     streak?: number;
-  }): string => {
-    const { mood_score, goals, reflection, streak } = checkinData;
+    user_context?: any;
+  }): Promise<string> => {
+    const { mood_score, goals, reflection, streak, user_context } = checkinData;
     
     // Base context
     let context = `User Check-in Data:
@@ -368,10 +370,18 @@ export const mentors = {
       });
     }
     
-    // Mentor-specific prompt template (now handled by AI service)
-    const template = mentor.prompt_template || 'You are a supportive AI mentor. Provide encouraging, personalized advice based on the user\'s check-in. Keep responses under 200 words.';
+    // Get base mentor prompt template
+    const baseTemplate = mentor.prompt_template || 'You are a supportive AI mentor. Provide encouraging, personalized advice based on the user\'s check-in. Keep responses under 200 words.';
     
-    return `${template}
+    // Enhance with external data if available
+    try {
+      const enhancedTemplate = await externalDataService.enhanceMentorPrompt(
+        baseTemplate,
+        mentor.category,
+        user_context
+      );
+      
+      return `${enhancedTemplate}
 
 ${context}
 
@@ -384,12 +394,38 @@ Please provide a personalized response that:
       'Provides general encouragement and support'}
 3. Offers specific, actionable advice for tomorrow
 4. Matches the tone and style of ${mentor.name}`;
+    } catch (error) {
+      console.error('Error enhancing prompt with external data:', error);
+      
+      // Fallback to base prompt without external data
+      return `${baseTemplate}
+
+${context}
+
+Please provide a personalized response that:
+1. Acknowledges their current mood and progress
+2. ${mentor.category === 'fitness' ? 'Focuses on physical health and movement' :
+      mentor.category === 'wellness' ? 'Emphasizes mental well-being and balance' :
+      mentor.category === 'study' ? 'Supports learning and productivity goals' :
+      mentor.category === 'career' ? 'Addresses professional growth and achievement' :
+      'Provides general encouragement and support'}
+3. Offers specific, actionable advice for tomorrow
+4. Matches the tone and style of ${mentor.name}`;
+    }
   },
 
-  generateChatPrompt: (mentor: Mentor, conversationContext: string): string => {
+  generateChatPrompt: async (mentor: Mentor, conversationContext: string, userContext?: any): Promise<string> => {
     const basePrompt = mentor.prompt_template || 'You are a supportive AI mentor having a real-time conversation.';
     
-    return `${basePrompt}
+    try {
+      // Enhance with external data
+      const enhancedPrompt = await externalDataService.enhanceMentorPrompt(
+        basePrompt,
+        mentor.category,
+        userContext
+      );
+      
+      return `${enhancedPrompt}
 
 Conversation Context:
 ${conversationContext}
@@ -407,6 +443,29 @@ Guidelines for this real-time conversation:
 6. Use the speaking style: ${mentor.speaking_style}
 
 Be engaging, authentic, and helpful in your response.`;
+    } catch (error) {
+      console.error('Error enhancing chat prompt:', error);
+      
+      // Fallback without external data
+      return `${basePrompt}
+
+Conversation Context:
+${conversationContext}
+
+Guidelines for this real-time conversation:
+1. Respond naturally and conversationally as ${mentor.name}
+2. Keep responses concise but meaningful (1-3 sentences typically)
+3. Ask follow-up questions to deepen the conversation
+4. ${mentor.category === 'fitness' ? 'Focus on physical health, movement, and energy' :
+      mentor.category === 'wellness' ? 'Emphasize mindfulness, balance, and emotional well-being' :
+      mentor.category === 'study' ? 'Support learning, productivity, and academic goals' :
+      mentor.category === 'career' ? 'Address professional development and achievement' :
+      'Provide personalized support and guidance'}
+5. Match the personality: ${mentor.personality}
+6. Use the speaking style: ${mentor.speaking_style}
+
+Be engaging, authentic, and helpful in your response.`;
+    }
   },
 };
 

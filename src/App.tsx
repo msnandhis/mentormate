@@ -9,9 +9,10 @@ import { Testimonials } from './components/Testimonials';
 import { Pricing } from './components/Pricing';
 import { Footer } from './components/Footer';
 import { AuthModal } from './components/auth/AuthModal';
-import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
+import { EnhancedOnboardingFlow } from './components/onboarding/EnhancedOnboardingFlow';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { ProfileSettings } from './components/profile/ProfileSettings';
+import { CustomMentorCreation } from './components/mentors/CustomMentorCreation';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { Loader2 } from 'lucide-react';
 
@@ -64,9 +65,9 @@ const AppContent: React.FC = () => {
     return <LandingPage />;
   }
 
-  // Authenticated but onboarding not completed - show onboarding
+  // Authenticated but onboarding not completed - show enhanced onboarding
   if (!profile?.onboarding_completed) {
-    return <OnboardingFlow />;
+    return <EnhancedOnboardingFlow />;
   }
 
   // Authenticated and onboarded - show app
@@ -85,6 +86,14 @@ const AppContent: React.FC = () => {
         element={
           <ProtectedRoute requireOnboarding>
             <ProfileSettings />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/create-mentor" 
+        element={
+          <ProtectedRoute requireOnboarding>
+            <CustomMentorCreation />
           </ProtectedRoute>
         } 
       />
