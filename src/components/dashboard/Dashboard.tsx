@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Target, TrendingUp, Video, Plus, Activity, Award, Clock, Users, MessageCircle } from 'lucide-react';
+import { Calendar, Target, TrendingUp, Video, Plus, Activity, Award, Clock, Users, MessageCircle, BarChart3, Lightbulb } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkins } from '../../lib/supabase';
 import { CheckinForm } from '../checkin/CheckinForm';
@@ -8,11 +8,14 @@ import { MentorInsights } from '../mentors/MentorInsights';
 import { ConversationManager } from '../conversation/ConversationManager';
 import { MentorQuickStart } from './MentorQuickStart';
 import { ApiStatusDashboard } from './ApiStatusDashboard';
+import { ProgressVisualization } from './ProgressVisualization';
+import { GoalRecommendations } from './GoalRecommendations';
+import { ProactiveNudges } from './ProactiveNudges';
 
 export const Dashboard: React.FC = () => {
   const { profile, user } = useAuth();
   const [showCheckinForm, setShowCheckinForm] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'live-chat' | 'history' | 'mentors'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'analytics' | 'live-chat' | 'history' | 'mentors'>('overview');
   const [stats, setStats] = useState({
     streak: 0,
     totalCheckins: 0,
@@ -121,6 +124,19 @@ export const Dashboard: React.FC = () => {
             Overview
           </button>
           <button
+            onClick={() => setActiveTab('analytics')}
+            className={`px-6 py-3 rounded-md font-body transition-colors ${
+              activeTab === 'analytics'
+                ? 'bg-primary text-white shadow-sm'
+                : 'text-neutral-600 hover:text-foreground'
+            }`}
+          >
+            <div className="flex items-center space-x-2">
+              <BarChart3 className="w-4 h-4" />
+              <span>Analytics</span>
+            </div>
+          </button>
+          <button
             onClick={() => setActiveTab('live-chat')}
             className={`px-6 py-3 rounded-md font-body transition-colors ${
               activeTab === 'live-chat'
@@ -158,9 +174,19 @@ export const Dashboard: React.FC = () => {
         {/* Tab Content */}
         {activeTab === 'overview' && (
           <>
+            {/* Proactive Nudges - High visibility placement */}
+            <div className="mb-8">
+              <ProactiveNudges />
+            </div>
+
             {/* API Status - Prominent Display */}
             <div className="mb-8">
               <ApiStatusDashboard />
+            </div>
+
+            {/* Goal Recommendations */}
+            <div className="mb-8">
+              <GoalRecommendations />
             </div>
 
             {/* Live Video Chat Section - Prominent placement */}
@@ -180,7 +206,7 @@ export const Dashboard: React.FC = () => {
                   </div>
                 </div>
                 <p className="font-body text-neutral-600 mb-6">
-                  Complete your daily accountability session with personalized video responses.
+                  Complete your daily accountability session with personalized AI-powered video responses.
                 </p>
                 <button 
                   onClick={() => setShowCheckinForm(true)}
@@ -201,7 +227,7 @@ export const Dashboard: React.FC = () => {
                   </div>
                 </div>
                 <p className="font-body text-neutral-600 mb-6">
-                  Jump into a quick conversation with any mentor for instant guidance.
+                  Jump into a quick conversation with any mentor for instant AI-powered guidance.
                 </p>
                 <button 
                   onClick={() => setActiveTab('live-chat')}
@@ -296,6 +322,13 @@ export const Dashboard: React.FC = () => {
               </div>
             )}
           </>
+        )}
+
+        {activeTab === 'analytics' && (
+          <div className="space-y-8">
+            <ProgressVisualization />
+            <GoalRecommendations />
+          </div>
         )}
 
         {activeTab === 'live-chat' && <ConversationManager />}
