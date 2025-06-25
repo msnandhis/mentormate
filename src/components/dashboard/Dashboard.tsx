@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Target, TrendingUp, Video, Plus, Activity, Award, Clock, Users, MessageCircle, BarChart3, Lightbulb } from 'lucide-react';
+import { Calendar, Target, TrendingUp, Video, Plus, Activity, Award, Clock, Users, MessageCircle, BarChart3, Lightbulb, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkins } from '../../lib/supabase';
 import { CheckinForm } from '../checkin/CheckinForm';
@@ -73,7 +73,7 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
     );
-  }
+  };
 
   const topMentor = Object.entries(stats.mentorUsage).sort(([,a], [,b]) => b - a)[0];
 
@@ -183,119 +183,123 @@ export const Dashboard: React.FC = () => {
             {/* Tab Content */}
             {activeTab === 'overview' && (
               <div className="space-y-8">
-                {/* Proactive Nudges - High visibility placement */}
+                {/* Hero Section with Primary CTA */}
+                <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-8 text-white relative overflow-hidden">
+                  <div className="relative z-10 max-w-2xl">
+                    <h1 className="font-heading font-bold text-3xl mb-4">
+                      Ready for your daily check-in?
+                    </h1>
+                    <p className="font-body text-primary-100 text-lg mb-6">
+                      {stats.streak > 0 
+                        ? `Amazing! You're on a ${stats.streak}-day streak. Let's keep the momentum going with today's accountability session.`
+                        : "Start building your accountability habit today. Your AI mentor is ready to support your journey."
+                      }
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <button
+                        onClick={() => setShowCheckinForm(true)}
+                        className="bg-white text-primary px-8 py-4 rounded-lg font-body font-semibold hover:bg-primary-50 transition-colors flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
+                      >
+                        <Calendar className="w-5 h-5" />
+                        <span>Start Daily Check-in</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                      
+                      <button
+                        onClick={() => setActiveTab('live-chat')}
+                        className="bg-primary-400 text-white px-6 py-4 rounded-lg font-body font-medium hover:bg-primary-300 transition-colors flex items-center justify-center space-x-2"
+                      >
+                        <MessageCircle className="w-5 h-5" />
+                        <span>Quick Chat</span>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Background decoration */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full transform translate-x-16 -translate-y-16" />
+                  <div className="absolute bottom-0 right-8 w-24 h-24 bg-white/5 rounded-full" />
+                </div>
+
+                {/* Proactive Nudges */}
                 <ProactiveNudges />
 
-                {/* Goal Recommendations */}
-                <GoalRecommendations />
+                {/* Stats Overview */}
+                <div>
+                  <h2 className="font-heading font-bold text-2xl text-foreground mb-6">
+                    Your Progress Overview
+                  </h2>
+                  
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="bg-white rounded-xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                          <Activity className="w-6 h-6 text-primary" />
+                        </div>
+                        <div className="text-right">
+                          <div className="font-heading font-bold text-2xl text-primary">
+                            {loading ? '...' : stats.streak}
+                          </div>
+                          <div className="font-body text-sm text-neutral-600">Day Streak</div>
+                        </div>
+                      </div>
+                      <p className="font-body text-neutral-700 text-sm">
+                        {stats.streak > 0 ? 'Keep it up! 🔥' : 'Start your first check-in'}
+                      </p>
+                    </div>
 
-                {/* Live Video Chat Section - Prominent placement */}
+                    <div className="bg-white rounded-xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                          <Clock className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <div className="text-right">
+                          <div className="font-heading font-bold text-2xl text-blue-600">
+                            {loading ? '...' : stats.totalCheckins}
+                          </div>
+                          <div className="font-body text-sm text-neutral-600">This Week</div>
+                        </div>
+                      </div>
+                      <p className="font-body text-neutral-700 text-sm">Weekly check-ins</p>
+                    </div>
+
+                    <div className="bg-white rounded-xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                          <TrendingUp className="w-6 h-6 text-purple-600" />
+                        </div>
+                        <div className="text-right">
+                          <div className="font-heading font-bold text-2xl text-purple-600">
+                            {loading ? '...' : stats.avgMood > 0 ? `${stats.avgMood}/10` : 'N/A'}
+                          </div>
+                          <div className="font-body text-sm text-neutral-600">Avg Mood</div>
+                        </div>
+                      </div>
+                      <p className="font-body text-neutral-700 text-sm">Weekly average</p>
+                    </div>
+
+                    <div className="bg-white rounded-xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="w-12 h-12 bg-success-100 rounded-xl flex items-center justify-center">
+                          <Target className="w-6 h-6 text-success" />
+                        </div>
+                        <div className="text-right">
+                          <div className="font-heading font-bold text-2xl text-success">
+                            {loading ? '...' : stats.completionRate > 0 ? `${stats.completionRate}%` : 'N/A'}
+                          </div>
+                          <div className="font-body text-sm text-neutral-600">Goal Success</div>
+                        </div>
+                      </div>
+                      <p className="font-body text-neutral-700 text-sm">Weekly completion rate</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Live Video Chat Section */}
                 <MentorQuickStart />
 
-                {/* Quick Actions Grid */}
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-white rounded-xl p-6 border border-border shadow-sm hover:shadow-lg transition-shadow">
-                    <div className="flex items-center justify-between mb-4">
-                      <h2 className="font-heading font-semibold text-xl text-foreground">
-                        Daily Check-in
-                      </h2>
-                      <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                        <Calendar className="w-6 h-6 text-primary" />
-                      </div>
-                    </div>
-                    <p className="font-body text-neutral-600 mb-6">
-                      Complete your daily accountability session with personalized AI-powered video responses.
-                    </p>
-                    <button 
-                      onClick={() => setShowCheckinForm(true)}
-                      className="w-full font-body px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center justify-center space-x-2"
-                    >
-                      <Plus className="w-5 h-5" />
-                      <span>Start Check-in</span>
-                    </button>
-                  </div>
-
-                  <div className="bg-white rounded-xl p-6 border border-border shadow-sm hover:shadow-lg transition-shadow">
-                    <div className="flex items-center justify-between mb-4">
-                      <h2 className="font-heading font-semibold text-xl text-foreground">
-                        Quick Chat
-                      </h2>
-                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <MessageCircle className="w-6 h-6 text-blue-600" />
-                      </div>
-                    </div>
-                    <p className="font-body text-neutral-600 mb-6">
-                      Jump into a quick conversation with any mentor for instant AI-powered guidance.
-                    </p>
-                    <button 
-                      onClick={() => setActiveTab('live-chat')}
-                      className="w-full font-body px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                    >
-                      Start Quick Chat
-                    </button>
-                  </div>
-                </div>
-
-                {/* Stats Grid */}
-                <div className="grid md:grid-cols-4 gap-6">
-                  <div className="bg-white rounded-xl p-6 border border-border">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-heading font-semibold text-foreground">Current Streak</h3>
-                      <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                        <Activity className="w-5 h-5 text-primary" />
-                      </div>
-                    </div>
-                    <div className="font-heading font-bold text-3xl text-primary mb-2">
-                      {loading ? '...' : stats.streak}
-                    </div>
-                    <p className="font-body text-sm text-neutral-600">
-                      {stats.streak > 0 ? 'Keep it up! 🔥' : 'Start your first check-in'}
-                    </p>
-                  </div>
-
-                  <div className="bg-white rounded-xl p-6 border border-border">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-heading font-semibold text-foreground">Weekly Check-ins</h3>
-                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <Clock className="w-5 h-5 text-blue-600" />
-                      </div>
-                    </div>
-                    <div className="font-heading font-bold text-3xl text-blue-600 mb-2">
-                      {loading ? '...' : stats.totalCheckins}
-                    </div>
-                    <p className="font-body text-sm text-neutral-600">This week</p>
-                  </div>
-
-                  <div className="bg-white rounded-xl p-6 border border-border">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-heading font-semibold text-foreground">Average Mood</h3>
-                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <TrendingUp className="w-5 h-5 text-purple-600" />
-                      </div>
-                    </div>
-                    <div className="font-heading font-bold text-3xl text-purple-600 mb-2">
-                      {loading ? '...' : stats.avgMood > 0 ? `${stats.avgMood}/10` : 'N/A'}
-                    </div>
-                    <p className="font-body text-sm text-neutral-600">This week</p>
-                  </div>
-
-                  <div className="bg-white rounded-xl p-6 border border-border">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-heading font-semibold text-foreground">Goal Success</h3>
-                      <div className="w-10 h-10 bg-success-100 rounded-lg flex items-center justify-center">
-                        <Target className="w-5 h-5 text-success" />
-                      </div>
-                    </div>
-                    <div className="font-heading font-bold text-3xl text-success mb-2">
-                      {loading ? '...' : stats.completionRate > 0 ? `${stats.completionRate}%` : 'N/A'}
-                    </div>
-                    <p className="font-body text-sm text-neutral-600">This week</p>
-                  </div>
-                </div>
-
-                {/* Top Mentor */}
+                {/* Top Mentor Section */}
                 {topMentor && (
-                  <div className="bg-white rounded-xl p-6 border border-border">
+                  <div className="bg-white rounded-xl p-6 border border-border shadow-sm">
                     <div className="flex items-center space-x-3 mb-4">
                       <Users className="w-6 h-6 text-primary" />
                       <h3 className="font-heading font-semibold text-xl text-foreground">
@@ -303,7 +307,7 @@ export const Dashboard: React.FC = () => {
                       </h3>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+                      <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
                         <span className="font-heading font-bold text-white">
                           {topMentor[0].charAt(0)}
                         </span>
