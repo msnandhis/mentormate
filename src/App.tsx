@@ -70,35 +70,40 @@ const AppContent: React.FC = () => {
     return <EnhancedOnboardingFlow />;
   }
 
-  // Authenticated and onboarded - show app
+  // Authenticated and onboarded - show app with header
   return (
-    <Routes>
-      <Route 
-        path="/" 
-        element={
-          <ProtectedRoute requireOnboarding>
-            <Dashboard />
-          </ProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/profile" 
-        element={
-          <ProtectedRoute requireOnboarding>
-            <ProfileSettings />
-          </ProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/create-mentor" 
-        element={
-          <ProtectedRoute requireOnboarding>
-            <CustomMentorCreation />
-          </ProtectedRoute>
-        } 
-      />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <div className="min-h-screen">
+      <Header />
+      <div className="pt-16"> {/* Account for fixed header */}
+        <Routes>
+          <Route 
+            path="/" 
+            element={
+              <ProtectedRoute requireOnboarding>
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute requireOnboarding>
+                <ProfileSettings />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/create-mentor" 
+            element={
+              <ProtectedRoute requireOnboarding>
+                <CustomMentorCreation />
+              </ProtectedRoute>
+            } 
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </div>
   );
 };
 
