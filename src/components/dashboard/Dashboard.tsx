@@ -8,7 +8,6 @@ import { MentorInsights } from '../mentors/MentorInsights';
 import { ConversationManager } from '../conversation/ConversationManager';
 import { MentorQuickStart } from './MentorQuickStart';
 import { ProgressVisualization } from './ProgressVisualization';
-import { GoalRecommendations } from './GoalRecommendations';
 import { ProactiveNudges } from './ProactiveNudges';
 
 export const Dashboard: React.FC = () => {
@@ -183,39 +182,29 @@ export const Dashboard: React.FC = () => {
             {/* Tab Content */}
             {activeTab === 'overview' && (
               <div className="space-y-8">
-                {/* Hero Section with Primary CTA */}
+                {/* Simplified Hero Section */}
                 <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-8 text-white relative overflow-hidden">
-                  <div className="relative z-10 max-w-2xl">
-                    <h1 className="font-heading font-bold text-3xl mb-4">
+                  <div className="relative z-10 max-w-3xl">
+                    <h1 className="font-heading font-bold text-3xl mb-3">
                       Ready for your daily check-in?
                     </h1>
-                    <p className="font-body text-primary-100 text-lg mb-6">
+                    <p className="font-body text-primary-100 text-lg mb-6 leading-relaxed">
                       {stats.streak > 0 
-                        ? `Amazing! You're on a ${stats.streak}-day streak. Let's keep the momentum going with today's accountability session.`
+                        ? `You're on a ${stats.streak}-day streak! Let's keep the momentum going.`
                         : "Start building your accountability habit today. Your AI mentor is ready to support your journey."
                       }
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <button
-                        onClick={() => setShowCheckinForm(true)}
-                        className="bg-white text-primary px-8 py-4 rounded-lg font-body font-semibold hover:bg-primary-50 transition-colors flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
-                      >
-                        <Calendar className="w-5 h-5" />
-                        <span>Start Daily Check-in</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
-                      
-                      <button
-                        onClick={() => setActiveTab('live-chat')}
-                        className="bg-primary-400 text-white px-6 py-4 rounded-lg font-body font-medium hover:bg-primary-300 transition-colors flex items-center justify-center space-x-2"
-                      >
-                        <MessageCircle className="w-5 h-5" />
-                        <span>Quick Chat</span>
-                      </button>
-                    </div>
+                    <button
+                      onClick={() => setShowCheckinForm(true)}
+                      className="bg-white text-primary px-8 py-4 rounded-lg font-body font-semibold hover:bg-primary-50 transition-colors flex items-center space-x-2 shadow-lg hover:shadow-xl"
+                    >
+                      <Calendar className="w-5 h-5" />
+                      <span>Start Daily Check-in</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
                   </div>
                   
-                  {/* Background decoration */}
+                  {/* Simplified background decoration */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full transform translate-x-16 -translate-y-16" />
                   <div className="absolute bottom-0 right-8 w-24 h-24 bg-white/5 rounded-full" />
                 </div>
@@ -329,7 +318,6 @@ export const Dashboard: React.FC = () => {
             {activeTab === 'analytics' && (
               <div className="space-y-8">
                 <ProgressVisualization />
-                <GoalRecommendations />
               </div>
             )}
 
