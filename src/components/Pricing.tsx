@@ -1,5 +1,5 @@
-import React from 'react';
-import { Check, Star, Crown, Zap } from 'lucide-react';
+import React, { useState } from 'react';
+import { Check, Star, Crown, Zap, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface PricingProps {
   onOpenAuth?: (mode: 'signin' | 'signup') => void;
@@ -61,7 +61,40 @@ const plans = [
   }
 ];
 
+const faqData = [
+  {
+    question: 'How does the free trial work?',
+    answer: 'Get full access to Premium features for 7 days. No credit card required. Cancel anytime during the trial with no charges.'
+  },
+  {
+    question: 'Can I change plans anytime?',
+    answer: 'Yes! Upgrade or downgrade your plan at any time. Changes take effect immediately, and we\'ll prorate any billing differences.'
+  },
+  {
+    question: 'How does voice cloning work?',
+    answer: 'Upload a 2-minute voice sample, and our AI will create a personalized mentor that sounds like you. This feature is available with the Elite plan.'
+  },
+  {
+    question: 'What devices are supported?',
+    answer: 'MentorMate works on all devices including web browsers, iOS, and Android. Your data syncs seamlessly across all platforms.'
+  },
+  {
+    question: 'Is my data secure?',
+    answer: 'Yes, we use enterprise-grade encryption and follow strict privacy protocols. Your personal data and conversations are never shared with third parties.'
+  },
+  {
+    question: 'Can I cancel my subscription?',
+    answer: 'You can cancel your subscription at any time from your account settings. Your access will continue until the end of your current billing period.'
+  }
+];
+
 export const Pricing: React.FC<PricingProps> = ({ onOpenAuth }) => {
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+
+  const toggleFaq = (index: number) => {
+    setExpandedFaq(expandedFaq === index ? null : index);
+  };
+
   return (
     <section id="pricing" className="py-20 bg-gradient-to-br from-primary-50 via-background to-accent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,7 +110,7 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenAuth }) => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto mb-20">
           {plans.map((plan, index) => (
             <div
               key={index}
@@ -149,41 +182,37 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenAuth }) => {
         </div>
 
         {/* FAQ Section */}
-        <div className="mt-20 max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <h3 className="font-heading font-bold text-2xl text-center text-foreground mb-8">
             Frequently Asked Questions
           </h3>
           
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg p-6 border border-border">
-              <h4 className="font-body font-semibold text-foreground mb-2">
-                How does the free trial work?
-              </h4>
-              <p className="font-body text-neutral-600">
-                Get full access to Premium features for 7 days. No credit card required. 
-                Cancel anytime during the trial with no charges.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 border border-border">
-              <h4 className="font-body font-semibold text-foreground mb-2">
-                Can I change plans anytime?
-              </h4>
-              <p className="font-body text-neutral-600">
-                Yes! Upgrade or downgrade your plan at any time. Changes take effect immediately, 
-                and we'll prorate any billing differences.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 border border-border">
-              <h4 className="font-body font-semibold text-foreground mb-2">
-                How does voice cloning work?
-              </h4>
-              <p className="font-body text-neutral-600">
-                Upload a 2-minute voice sample, and our AI will create a personalized mentor 
-                that sounds like you. This feature is available with the Elite plan.
-              </p>
-            </div>
+          <div className="space-y-4">
+            {faqData.map((faq, index) => (
+              <div key={index} className="bg-white rounded-xl border border-border overflow-hidden">
+                <button
+                  onClick={() => toggleFaq(index)}
+                  className="w-full text-left p-6 hover:bg-accent transition-colors flex items-center justify-between"
+                >
+                  <h4 className="font-body font-semibold text-foreground pr-4">
+                    {faq.question}
+                  </h4>
+                  {expandedFaq === index ? (
+                    <ChevronUp className="w-5 h-5 text-neutral-500 flex-shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-neutral-500 flex-shrink-0" />
+                  )}
+                </button>
+                
+                {expandedFaq === index && (
+                  <div className="px-6 pb-6 border-t border-border">
+                    <p className="font-body text-neutral-600 pt-4 leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>

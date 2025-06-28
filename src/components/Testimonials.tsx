@@ -115,26 +115,6 @@ export const Testimonials: React.FC = () => {
             </div>
           ))}
         </div>
-
-        {/* Stats */}
-        <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-          <div>
-            <div className="font-heading font-bold text-3xl text-foreground mb-2">50k+</div>
-            <div className="font-body text-neutral-600">Active Users</div>
-          </div>
-          <div>
-            <div className="font-heading font-bold text-3xl text-foreground mb-2">95%</div>
-            <div className="font-body text-neutral-600">Success Rate</div>
-          </div>
-          <div>
-            <div className="font-heading font-bold text-3xl text-foreground mb-2">1M+</div>
-            <div className="font-body text-neutral-600">Check-ins</div>
-          </div>
-          <div>
-            <div className="font-heading font-bold text-3xl text-foreground mb-2">4.9</div>
-            <div className="font-body text-neutral-600">App Rating</div>
-          </div>
-        </div>
       </div>
     </section>
   );
