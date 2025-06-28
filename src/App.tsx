@@ -5,7 +5,6 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { StatsSection } from './components/StatsSection';
 import { FeaturesShowcase } from './components/FeaturesShowcase';
-import { HowItWorks } from './components/HowItWorks';
 import { Mentors } from './components/Mentors';
 import { Testimonials } from './components/Testimonials';
 import { Pricing } from './components/Pricing';
@@ -34,7 +33,6 @@ const LandingPage: React.FC = () => {
         <Hero onOpenAuth={openAuthModal} />
         <StatsSection />
         <FeaturesShowcase />
-        <HowItWorks />
         <Mentors />
         <Testimonials />
         <Pricing onOpenAuth={openAuthModal} />
