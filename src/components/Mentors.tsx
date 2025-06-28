@@ -54,37 +54,6 @@ const mentors = [
   }
 ];
 
-const mentorModes = [
-  {
-    title: 'Classic Check-in',
-    description: 'Quick daily form + personalized video response from your AI mentor',
-    features: [
-      '2-minute daily check-in',
-      'Mood tracking & goal updates',
-      'Personalized video messages',
-      'Perfect for busy schedules'
-    ],
-    gradient: 'from-primary-50 to-primary-100',
-    borderColor: 'primary-200',
-    textColor: 'primary-700',
-    icon: Users,
-  },
-  {
-    title: 'Real-Time Chat',
-    description: 'Live video conversations with your AI mentor for deeper support',
-    features: [
-      'Live video conversations',
-      'Voice-to-voice interaction',
-      'Immediate feedback & support',
-      'When you need extra motivation'
-    ],
-    gradient: 'from-blue-50 to-blue-100',
-    borderColor: 'blue-200',
-    textColor: 'blue-700',
-    icon: Zap,
-  }
-];
-
 export const Mentors: React.FC = () => {
   return (
     <section id="mentors" className="py-20 bg-gradient-to-br from-primary-50 via-background to-accent">
@@ -180,52 +149,12 @@ export const Mentors: React.FC = () => {
           ))}
         </div>
 
-        {/* Interaction Modes */}
-        <div className="bg-white rounded-2xl p-8 border border-border shadow-lg">
-          <div className="text-center mb-8">
-            <h3 className="font-heading font-bold text-2xl text-foreground mb-4">
-              Choose Your Check-in Style
-            </h3>
-            <p className="font-body text-neutral-600">
-              Whether you prefer quick daily forms or live conversations, we've got you covered.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {mentorModes.map((mode, index) => (
-              <div key={index} className={`p-6 bg-gradient-to-br ${mode.gradient} rounded-xl border border-${mode.borderColor}`}>
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className={`w-12 h-12 bg-gradient-to-br ${mentors[index]?.gradient || 'from-primary-500 to-primary-600'} rounded-lg flex items-center justify-center`}>
-                    <mode.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h4 className={`font-heading font-semibold text-lg text-${mode.textColor}`}>
-                    {mode.title}
-                  </h4>
-                </div>
-                
-                <p className={`font-body text-${mode.textColor} mb-4`}>
-                  {mode.description}
-                </p>
-                
-                <ul className={`font-body text-sm text-${mode.textColor.replace('700', '600')} space-y-2`}>
-                  {mode.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center space-x-2">
-                      <div className="w-1.5 h-1.5 bg-current rounded-full" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* CTA */}
-          <div className="text-center mt-8">
-            <button className="group font-body px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary-600 transition-all duration-300 flex items-center justify-center space-x-2 mx-auto shadow-lg hover:shadow-xl">
-              <span>Meet Your Mentors</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
+        {/* CTA Section */}
+        <div className="text-center">
+          <button className="group font-body px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary-600 transition-all duration-300 flex items-center justify-center space-x-2 mx-auto shadow-lg hover:shadow-xl">
+            <span>Meet Your Mentors</span>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </button>
         </div>
       </div>
     </section>
