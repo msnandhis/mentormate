@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { Features } from './components/Features';
+import { StatsSection } from './components/StatsSection';
+import { FeaturesShowcase } from './components/FeaturesShowcase';
+import { HowItWorks } from './components/HowItWorks';
 import { Mentors } from './components/Mentors';
 import { Testimonials } from './components/Testimonials';
 import { Pricing } from './components/Pricing';
@@ -30,7 +32,9 @@ const LandingPage: React.FC = () => {
       <Header onOpenAuth={openAuthModal} />
       <main>
         <Hero onOpenAuth={openAuthModal} />
-        <Features />
+        <StatsSection />
+        <FeaturesShowcase />
+        <HowItWorks />
         <Mentors />
         <Testimonials />
         <Pricing onOpenAuth={openAuthModal} />
