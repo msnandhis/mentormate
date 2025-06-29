@@ -4,8 +4,6 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { StatsSection } from './components/StatsSection';
-import { FeaturesShowcase } from './components/FeaturesShowcase';
-import { Mentors } from './components/Mentors';
 import { Testimonials } from './components/Testimonials';
 import { Pricing } from './components/Pricing';
 import { Footer } from './components/Footer';
@@ -25,8 +23,6 @@ const LandingPage: React.FC = () => {
       <main>
         <Hero />
         <StatsSection />
-        <FeaturesShowcase />
-        <Mentors />
         <Testimonials />
         <Pricing />
       </main>
