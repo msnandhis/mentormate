@@ -218,8 +218,8 @@ const generateCustomGreeting = (mentor: any, userName?: string): string => {
   const greetings = {
     'ZenKai': `Hello ${name}, and welcome to our mindful space. I'm ZenKai, and I'm here to help you find balance and peace in this moment. Take a deep breath, and let's explore your wellness journey together.`,
     'Coach Lex': `Hey ${name}! 💪 I'm Coach Lex, your fitness mentor! I'm pumped to be here with you today. Ready to crush some goals and get moving? Let's make this session amazing!`,
-    'Prof. Ada': `Greetings ${name}! I'm Professor Ada, your study and productivity mentor. I'm here to help you optimize your learning strategies and achieve your academic goals. What would you like to focus on today?`,
-    'No-BS Tony': `Alright ${name}, let's get straight to business. I'm Tony, and I'm here to push you toward real results. No excuses, no fluff - just actionable advice that gets you where you need to be. What are we working on?`,
+    'Prof. Sophia': `Greetings ${name}! I'm Professor Sophia, your study and productivity mentor. I'm here to help you optimize your learning strategies and achieve your academic goals. What would you like to focus on today?`,
+    'Dr. Maya': `Hello ${name}, I'm Dr. Maya. It's great to meet you. I'm here to help you navigate your career journey with clarity and purpose. Let's discuss what professional goals you'd like to work toward.`
   };
 
   return greetings[mentor.name as keyof typeof greetings] || 

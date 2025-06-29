@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dumbbell, Heart, BookOpen, Briefcase, Check, Info } from 'lucide-react';
+import { Dumbbell, Heart, BookOpen, Briefcase, Info } from 'lucide-react';
 import { Mentor } from '../../lib/supabase';
 import { MentorCard } from '../mentors/MentorCard';
 

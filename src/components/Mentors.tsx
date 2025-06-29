@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dumbbell, Heart, BookOpen, Briefcase, Sparkles, ArrowRight, Users, Zap } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const mentors = [
   {
@@ -24,7 +25,7 @@ const mentors = [
   },
   {
     icon: BookOpen,
-    name: 'Prof. Ada',
+    name: 'Prof. Sophia',
     category: 'Study & Learning',
     description: 'Academic mentor who helps optimize your learning and productivity habits.',
     personality: 'Analytical • Encouraging • Strategic',
@@ -34,12 +35,12 @@ const mentors = [
   },
   {
     icon: Briefcase,
-    name: 'No-BS Tony',
+    name: 'Dr. Maya',
     category: 'Career & Focus',
-    description: 'Direct career coach who cuts through excuses and drives real progress.',
-    personality: 'Direct • Ambitious • Practical',
-    expertise: ['goal setting', 'leadership', 'professional development', 'networking', 'performance'],
-    approach: 'Challenges excuses, demands accountability, focuses on action over feelings',
+    description: 'Insightful career mentor who combines strategic guidance with empathetic understanding.',
+    personality: 'Insightful • Strategic • Empathetic',
+    expertise: ['leadership', 'career planning', 'professional development', 'networking', 'performance'],
+    approach: 'Balances professional advancement with personal values alignment',
     gradient: 'from-gray-600 to-gray-800'
   }
 ];
@@ -141,10 +142,13 @@ export const Mentors: React.FC = () => {
 
         {/* CTA */}
         <div className="text-center">
-          <button className="group font-body px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary-600 transition-all duration-300 flex items-center justify-center space-x-2 mx-auto shadow-lg hover:shadow-xl">
+          <Link
+            to="/register"
+            className="group font-body px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary-600 transition-all duration-300 flex items-center justify-center space-x-2 mx-auto shadow-lg hover:shadow-xl"
+          >
             <span>Meet Your Mentors</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
         </div>
       </div>
     </section>

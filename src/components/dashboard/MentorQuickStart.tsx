@@ -147,7 +147,11 @@ export const MentorQuickStart: React.FC = () => {
                   ? 'cursor-pointer hover:border-primary hover:shadow-lg hover:-translate-y-1' 
                   : 'opacity-50 cursor-not-allowed'
               } ${
-                mentor.name === 'ZenKai' ? 'bg-gradient-to-br from-blue-50 to-teal-50' : 'bg-white'
+                mentor.name === 'ZenKai' ? 'bg-gradient-to-br from-blue-50 to-teal-50' : 
+                mentor.name === 'Coach Lex' ? 'bg-gradient-to-br from-red-50 to-orange-50' :
+                mentor.name === 'Prof. Sophia' ? 'bg-gradient-to-br from-purple-50 to-pink-50' :
+                mentor.name === 'Dr. Maya' ? 'bg-gradient-to-br from-gray-50 to-gray-100' :
+                'bg-white'
               }`}
             >
               {/* Mentor Icon */}
@@ -167,7 +171,11 @@ export const MentorQuickStart: React.FC = () => {
                   {mentor.name}
                 </h4>
                 <p className={`font-body text-xs capitalize mb-2 ${
-                  mentor.name === 'ZenKai' ? 'text-blue-600' : 'text-neutral-600'
+                  mentor.name === 'ZenKai' ? 'text-blue-600' : 
+                  mentor.name === 'Coach Lex' ? 'text-red-600' :
+                  mentor.name === 'Prof. Sophia' ? 'text-purple-600' :
+                  mentor.name === 'Dr. Maya' ? 'text-gray-600' :
+                  'text-neutral-600'
                 }`}>
                   {mentor.category}
                 </p>
@@ -175,21 +183,16 @@ export const MentorQuickStart: React.FC = () => {
                 {/* Live Chat Button */}
                 <div className={`flex items-center justify-center space-x-1 text-xs font-medium px-2 py-1 rounded-full ${
                   apiStatus === 'connected' ? (
-                    mentor.name === 'ZenKai' 
-                      ? 'bg-blue-100 text-blue-700' 
-                      : 'bg-primary-100 text-primary-700'
+                    mentor.name === 'ZenKai' ? 'bg-blue-100 text-blue-700' : 
+                    mentor.name === 'Coach Lex' ? 'bg-red-100 text-red-700' :
+                    mentor.name === 'Prof. Sophia' ? 'bg-purple-100 text-purple-700' :
+                    mentor.name === 'Dr. Maya' ? 'bg-gray-100 text-gray-700' :
+                    'bg-primary-100 text-primary-700'
                   ) : 'bg-gray-100 text-gray-500'
                 }`}>
                   <Play className="w-3 h-3" />
                   <span>{apiStatus === 'connected' ? 'Start Live Chat' : 'Setup Required'}</span>
                 </div>
-
-                {/* Special Badge for ZenKai */}
-                {mentor.name === 'ZenKai' && (
-                  <div className="mt-2 text-xs text-blue-600 font-medium">
-                    ✨ Advanced AI Persona
-                  </div>
-                )}
 
                 {/* Live Support Indicator */}
                 {apiStatus === 'connected' && mentor.avatar_config?.replica_id && (

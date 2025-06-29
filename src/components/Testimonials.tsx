@@ -14,17 +14,17 @@ const testimonials = [
     name: 'Marcus Rodriguez',
     role: 'Entrepreneur',
     avatar: 'MR',
-    text: "No-BS Tony doesn't let me make excuses. The direct feedback and weekly forecasts have helped me finally launch my side project.",
+    text: "Dr. Maya's strategic approach helped me prioritize my career goals. Her insights on leadership development have been transformative.",
     rating: 5,
-    mentor: 'No-BS Tony'
+    mentor: 'Dr. Maya'
   },
   {
     name: 'Emily Watson',
     role: 'Graduate Student',
     avatar: 'EW',
-    text: 'Prof. Ada has been incredible for staying on top of my thesis. The study sessions and accountability have made all the difference.',
+    text: 'Prof. Sophia has been incredible for staying on top of my thesis. Her study strategies and accountability have made all the difference.',
     rating: 5,
-    mentor: 'Prof. Ada'
+    mentor: 'Prof. Sophia'
   },
   {
     name: 'David Kim',
@@ -48,7 +48,7 @@ const testimonials = [
     avatar: 'AC',
     text: 'The AI insights showed me patterns I never noticed. Now I know exactly when I\'m most productive and plan accordingly.',
     rating: 5,
-    mentor: 'Prof. Ada'
+    mentor: 'Prof. Sophia'
   }
 ];
 

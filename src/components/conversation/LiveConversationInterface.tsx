@@ -185,8 +185,8 @@ export const LiveConversationInterface: React.FC<LiveConversationInterfaceProps>
     const greetings = {
       'ZenKai': `Hello ${name}, welcome to our peaceful space. I'm ZenKai, here to guide you mindfully through our conversation today.`,
       'Coach Lex': `Hey ${name}! Coach Lex here, ready to energize our chat and help you crush your goals! 💪`,
-      'Prof. Ada': `Greetings ${name}! I'm Professor Ada, excited to have an intellectually stimulating conversation with you today.`,
-      'No-BS Tony': `${name}, let's get straight to business. I'm Tony, and I'm here to give you the real talk you need.`,
+      'Prof. Sophia': `Greetings ${name}! I'm Professor Sophia, excited to have an intellectually stimulating conversation with you today.`,
+      'Dr. Maya': `Hello ${name}, I'm Dr. Maya. It's great to meet you. I'm here to help you navigate your career journey with clarity and purpose.`
     };
 
     return greetings[mentor.name as keyof typeof greetings] || 
