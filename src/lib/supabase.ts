@@ -264,7 +264,7 @@ export const auth = {
       });
       
       if (error) {
-        throw getDetailedError(error, 'Sign Up');
+        return { data: null, error: getDetailedError(error, 'Sign Up') };
       }
       
       return { data, error: null };
@@ -282,7 +282,7 @@ export const auth = {
       });
       
       if (error) {
-        throw getDetailedError(error, 'Sign In');
+        return { data: null, error: getDetailedError(error, 'Sign In') };
       }
       
       return { data, error: null };
@@ -297,7 +297,7 @@ export const auth = {
       const { error } = await supabase.auth.signOut();
       
       if (error) {
-        throw getDetailedError(error, 'Sign Out');
+        return { error: getDetailedError(error, 'Sign Out') };
       }
       
       return { error: null };
@@ -312,7 +312,7 @@ export const auth = {
       const { data: { user }, error } = await supabase.auth.getUser();
       
       if (error) {
-        throw getDetailedError(error, 'Get Current User');
+        return { user: null, error: getDetailedError(error, 'Get Current User') };
       }
       
       return { user, error: null };
