@@ -28,7 +28,7 @@ const plans = [
     icon: Star,
     features: [
       'Unlimited daily check-ins',
-      'All 5 mentor categories',
+      'All 4 mentor categories',
       'Both Classic & Real-time modes',
       'Advanced AI insights',
       'Weekly mentor forecasts',
@@ -93,11 +93,11 @@ export const Pricing: React.FC = () => {
   };
 
   return (
-    <section id="pricing" className="py-20 bg-gradient-to-br from-primary-50 via-background to-accent">
+    <section id="pricing" className="py-24 bg-gradient-to-br from-primary-50 via-background to-accent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-foreground mb-4">
+          <h2 className="font-heading font-bold text-4xl text-foreground mb-6">
             Simple, Transparent
             <span className="text-primary"> Pricing</span>
           </h2>
@@ -107,48 +107,61 @@ export const Pricing: React.FC = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto mb-20">
-          {plans.map((plan, index) => (
-            <div
-              key={index}
-              className={`relative bg-white rounded-2xl border ${
-                plan.popular 
-                  ? 'border-primary shadow-2xl scale-105 lg:scale-110' 
-                  : 'border-border shadow-lg hover:shadow-xl'
-              } transition-all duration-300 overflow-hidden`}
-            >
-              {/* Popular Badge */}
-              {plan.popular && (
-                <div className="absolute top-0 inset-x-0 bg-primary text-white text-center py-2">
-                  <span className="font-body font-semibold text-sm">Most Popular</span>
-                </div>
-              )}
-
-              <div className={`p-8 ${plan.popular ? 'pt-12' : ''}`}>
-                {/* Plan Header */}
-                <div className="text-center mb-8">
-                  <div className={`w-16 h-16 bg-gradient-to-br ${plan.gradient} rounded-xl flex items-center justify-center mx-auto mb-4`}>
-                    <plan.icon className="w-8 h-8 text-white" />
+        <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
+          {plans.map((plan, index) => {
+            const Icon = plan.icon;
+            return (
+              <div
+                key={index}
+                className={`relative bg-white rounded-2xl border ${
+                  plan.popular 
+                    ? 'border-primary shadow-2xl scale-105 lg:scale-110' 
+                    : 'border-border shadow-lg hover:shadow-xl'
+                } transition-all duration-300 overflow-hidden h-full`}
+              >
+                {/* Popular Badge */}
+                {plan.popular && (
+                  <div className="absolute top-0 inset-x-0 bg-primary text-white text-center py-2">
+                    <span className="font-body font-semibold text-sm">Most Popular</span>
                   </div>
-                  
-                  <h3 className="font-heading font-bold text-2xl text-foreground mb-2">
-                    {plan.name}
-                  </h3>
-                  
-                  <p className="font-body text-neutral-600 mb-4">
-                    {plan.description}
-                  </p>
+                )}
 
-                  {/* Price */}
-                  <div className="mb-6">
-                    <span className="font-heading font-bold text-4xl text-foreground">
-                      {plan.price}
-                    </span>
-                    {plan.period && (
-                      <span className="font-body text-neutral-600 ml-1">
-                        / {plan.period}
+                <div className={`p-8 ${plan.popular ? 'pt-12' : ''} h-full flex flex-col`}>
+                  {/* Plan Header */}
+                  <div className="text-center mb-8">
+                    <div className={`w-16 h-16 bg-gradient-to-br ${plan.gradient} rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg`}>
+                      <Icon className="w-8 h-8 text-white" />
+                    </div>
+                    
+                    <h3 className="font-heading font-bold text-2xl text-foreground mb-2">
+                      {plan.name}
+                    </h3>
+                    
+                    <p className="font-body text-neutral-600 mb-4">
+                      {plan.description}
+                    </p>
+
+                    {/* Price */}
+                    <div className="mb-6">
+                      <span className="font-heading font-bold text-4xl text-foreground">
+                        {plan.price}
                       </span>
-                    )}
+                      {plan.period && (
+                        <span className="font-body text-neutral-600 ml-1">
+                          / {plan.period}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Features */}
+                  <div className="space-y-4 mb-8 flex-grow">
+                    {plan.features.map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-center space-x-3">
+                        <Check className={`w-5 h-5 ${plan.popular ? 'text-primary' : 'text-success'}`} />
+                        <span className="font-body text-neutral-700">{feature}</span>
+                      </div>
+                    ))}
                   </div>
 
                   {/* CTA Button */}
@@ -163,30 +176,20 @@ export const Pricing: React.FC = () => {
                     {plan.cta}
                   </Link>
                 </div>
-
-                {/* Features */}
-                <div className="space-y-4">
-                  {plan.features.map((feature, featureIndex) => (
-                    <div key={featureIndex} className="flex items-center space-x-3">
-                      <Check className={`w-5 h-5 ${plan.popular ? 'text-primary' : 'text-success'}`} />
-                      <span className="font-body text-neutral-700">{feature}</span>
-                    </div>
-                  ))}
-                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* FAQ Section */}
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto bg-white rounded-2xl p-8 border border-border shadow-lg">
           <h3 className="font-heading font-bold text-2xl text-center text-foreground mb-8">
             Frequently Asked Questions
           </h3>
           
           <div className="space-y-4">
             {faqData.map((faq, index) => (
-              <div key={index} className="bg-white rounded-xl border border-border overflow-hidden">
+              <div key={index} className="rounded-xl border border-border overflow-hidden">
                 <button
                   onClick={() => toggleFaq(index)}
                   className="w-full text-left p-6 hover:bg-accent transition-colors flex items-center justify-between"
@@ -210,6 +213,16 @@ export const Pricing: React.FC = () => {
                 )}
               </div>
             ))}
+          </div>
+          
+          {/* Bottom CTA */}
+          <div className="mt-8 text-center">
+            <Link
+              to="/register" 
+              className="inline-block font-body px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              Get Started Today
+            </Link>
           </div>
         </div>
       </div>

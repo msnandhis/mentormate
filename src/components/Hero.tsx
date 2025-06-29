@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Star, Users, Zap } from 'lucide-react';
+import { ArrowRight, Star, Users, Zap, Video, MessageSquare, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Hero: React.FC = () => {
@@ -41,13 +41,68 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column - Image */}
+          {/* Right Column - Video Conversation Design Element */}
           <div className="relative">
-            <img 
-              src="https://images.pexels.com/photos/8867433/pexels-photo-8867433.jpeg" 
-              alt="Person working with AI assistant" 
-              className="rounded-2xl shadow-2xl"
-            />
+            <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-neutral-800 to-neutral-900 shadow-2xl">
+              {/* Video Chat Interface */}
+              <div className="p-4 bg-gradient-to-r from-blue-500 to-teal-500 text-white">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                      <span className="font-bold text-white">Z</span>
+                    </div>
+                    <div>
+                      <h3 className="font-heading font-semibold">ZenKai</h3>
+                      <p className="text-sm opacity-90">Wellness Mentor</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Video className="w-4 h-4" />
+                    <span className="text-xs">Live</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Video Content */}
+              <div className="aspect-video bg-black relative">
+                {/* Video Frame */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img 
+                    src="https://images.pexels.com/photos/8439093/pexels-photo-8439093.jpeg" 
+                    alt="Wellness mentor in video call"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                
+                {/* UI Elements Overlay */}
+                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+                  <div className="bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-white text-xs font-medium">Live Conversation</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                      <MessageSquare className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                      <span className="w-3 h-3 bg-white rounded-sm"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Control Bar */}
+              <div className="p-4 bg-neutral-800 text-white">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-neutral-400">00:15:32</span>
+                  <div className="flex items-center space-x-2 text-xs">
+                    <Calendar className="w-3 h-3 text-neutral-400" />
+                    <span className="text-neutral-400">Daily Session</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             {/* Floating Elements */}
             <div className="absolute -top-4 right-8 bg-white rounded-lg p-3 shadow-lg animate-pulse-slow">

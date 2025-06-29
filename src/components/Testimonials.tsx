@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, Quote } from 'lucide-react';
+import { Star, Quote, MessageSquare } from 'lucide-react';
 
 const testimonials = [
   {
@@ -54,11 +54,11 @@ const testimonials = [
 
 export const Testimonials: React.FC = () => {
   return (
-    <section id="testimonials" className="py-20 bg-background">
+    <section id="testimonials" className="py-24 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-foreground mb-4">
+          <h2 className="font-heading font-bold text-4xl text-foreground mb-6">
             Loved by
             <span className="text-primary"> Thousands</span>
           </h2>
@@ -68,14 +68,14 @@ export const Testimonials: React.FC = () => {
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
+        <div className="grid md:grid-cols-3 gap-8">
+          {testimonials.slice(0, 3).map((testimonial, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl p-6 border border-border hover:shadow-lg transition-all duration-300 relative"
+              className="bg-white rounded-xl p-8 border border-border hover:shadow-xl transition-all duration-300 relative group"
             >
               {/* Quote Icon */}
-              <Quote className="w-8 h-8 text-primary-200 mb-4" />
+              <Quote className="absolute top-6 right-6 w-8 h-8 text-primary-200 opacity-50 group-hover:opacity-100 transition-opacity" />
               
               {/* Rating */}
               <div className="flex items-center space-x-1 mb-4">
@@ -92,7 +92,7 @@ export const Testimonials: React.FC = () => {
               {/* User Info */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
                     <span className="font-heading font-semibold text-white text-sm">
                       {testimonial.avatar}
                     </span>
@@ -108,12 +108,73 @@ export const Testimonials: React.FC = () => {
                 </div>
 
                 {/* Mentor Badge */}
-                <div className="font-body text-xs font-medium text-primary bg-primary-50 px-2 py-1 rounded-full">
-                  {testimonial.mentor}
+                <div className="font-body text-xs font-medium text-primary bg-primary-50 px-3 py-1.5 rounded-full flex items-center space-x-1">
+                  <MessageSquare className="w-3 h-3" />
+                  <span>{testimonial.mentor}</span>
                 </div>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Testimonials Carousel - Second Row */}
+        <div className="grid md:grid-cols-3 gap-8 mt-8">
+          {testimonials.slice(3, 6).map((testimonial, index) => (
+            <div
+              key={index + 3}
+              className="bg-white rounded-xl p-8 border border-border hover:shadow-xl transition-all duration-300 relative group"
+            >
+              {/* Quote Icon */}
+              <Quote className="absolute top-6 right-6 w-8 h-8 text-primary-200 opacity-50 group-hover:opacity-100 transition-opacity" />
+              
+              {/* Rating */}
+              <div className="flex items-center space-x-1 mb-4">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 text-warning fill-current" />
+                ))}
+              </div>
+
+              {/* Testimonial Text */}
+              <p className="font-body text-neutral-700 mb-6 leading-relaxed">
+                "{testimonial.text}"
+              </p>
+
+              {/* User Info */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
+                    <span className="font-heading font-semibold text-white text-sm">
+                      {testimonial.avatar}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="font-body font-semibold text-foreground">
+                      {testimonial.name}
+                    </div>
+                    <div className="font-body text-sm text-neutral-600">
+                      {testimonial.role}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Mentor Badge */}
+                <div className="font-body text-xs font-medium text-primary bg-primary-50 px-3 py-1.5 rounded-full flex items-center space-x-1">
+                  <MessageSquare className="w-3 h-3" />
+                  <span>{testimonial.mentor}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA Section */}
+        <div className="mt-16 text-center">
+          <Link
+            to="/register"
+            className="inline-block font-body px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            Start Your Free Trial
+          </Link>
         </div>
       </div>
     </section>
