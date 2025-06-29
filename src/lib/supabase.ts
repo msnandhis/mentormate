@@ -27,6 +27,38 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
   }
 });
 
+// Helper function to get detailed error information
+const getDetailedError = (error: any, context: string) => {
+  console.error(`Supabase ${context} Error:`, error);
+  
+  // Check for common network/CORS issues
+  if (error.message === 'Failed to fetch' || error.message.includes('fetch')) {
+    return new Error(
+      `Network connection failed. This usually means:\n` +
+      `1. Your Supabase project URL might be incorrect\n` +
+      `2. Your Supabase project might be paused or deleted\n` +
+      `3. CORS issue: Add 'http://localhost:5173' to your Supabase project's Auth settings under 'Site URL' or 'Additional Redirect URLs'\n` +
+      `4. Check your internet connection\n\n` +
+      `Current Supabase URL: ${supabaseUrl}`
+    );
+  }
+  
+  // Check for authentication-specific errors
+  if (error.message?.includes('Invalid login credentials')) {
+    return new Error('Invalid email or password. Please check your credentials and try again.');
+  }
+  
+  if (error.message?.includes('Email not confirmed')) {
+    return new Error('Please check your email and click the confirmation link before signing in.');
+  }
+  
+  if (error.message?.includes('Too many requests')) {
+    return new Error('Too many login attempts. Please wait a few minutes and try again.');
+  }
+  
+  return error;
+};
+
 // Types
 export interface Mentor {
   id: string;
@@ -217,37 +249,77 @@ export interface VideoGeneration {
   updated_at: string;
 }
 
-// Auth helpers
+// Enhanced Auth helpers with better error handling
 export const auth = {
   signUp: async (email: string, password: string, fullName: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: fullName,
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+          },
         },
-      },
-    });
-    return { data, error };
+      });
+      
+      if (error) {
+        throw getDetailedError(error, 'Sign Up');
+      }
+      
+      return { data, error: null };
+    } catch (error) {
+      console.error('Sign up error:', error);
+      return { data: null, error: getDetailedError(error, 'Sign Up') };
+    }
   },
 
   signIn: async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { data, error };
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      if (error) {
+        throw getDetailedError(error, 'Sign In');
+      }
+      
+      return { data, error: null };
+    } catch (error) {
+      console.error('Sign in error:', error);
+      return { data: null, error: getDetailedError(error, 'Sign In') };
+    }
   },
 
   signOut: async () => {
-    const { error } = await supabase.auth.signOut();
-    return { error };
+    try {
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        throw getDetailedError(error, 'Sign Out');
+      }
+      
+      return { error: null };
+    } catch (error) {
+      console.error('Sign out error:', error);
+      return { error: getDetailedError(error, 'Sign Out') };
+    }
   },
 
   getCurrentUser: async () => {
-    const { data: { user }, error } = await supabase.auth.getUser();
-    return { user, error };
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      
+      if (error) {
+        throw getDetailedError(error, 'Get Current User');
+      }
+      
+      return { user, error: null };
+    } catch (error) {
+      console.error('Get current user error:', error);
+      return { user: null, error: getDetailedError(error, 'Get Current User') };
+    }
   },
 
   onAuthStateChange: (callback: (event: string, session: any) => void) => {
