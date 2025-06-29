@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { Menu, X, MessageCircle, User, Settings, LogOut } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
-interface HeaderProps {
-  onOpenAuth?: (mode: 'signin' | 'signup') => void;
-}
-
-export const Header: React.FC<HeaderProps> = ({ onOpenAuth }) => {
+export const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const handleSignOut = async () => {
     await signOut();
     setIsProfileOpen(false);
+    navigate('/');
   };
 
   return (
@@ -21,16 +20,16 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAuth }) => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <MessageCircle className="w-5 h-5 text-white" />
             </div>
             <span className="font-heading font-bold text-xl text-foreground">
               MentorMate
             </span>
-          </div>
+          </Link>
 
-          {/* Navigation - Only show on landing page */}
+          {/* Navigation - Only show on landing page when not authenticated */}
           {!user && (
             <nav className="hidden md:flex items-center space-x-8">
               <a href="#features" className="font-body text-neutral-600 hover:text-primary transition-colors">
@@ -77,16 +76,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAuth }) => {
                     </div>
                   </div>
                   
-                  <button
-                    onClick={() => {
-                      window.location.href = '/profile';
-                      setIsProfileOpen(false);
-                    }}
+                  <Link
+                    to="/profile"
+                    onClick={() => setIsProfileOpen(false)}
                     className="w-full flex items-center space-x-3 px-4 py-2 font-body text-foreground hover:bg-accent transition-colors"
                   >
                     <Settings className="w-4 h-4" />
                     <span>Profile Settings</span>
-                  </button>
+                  </Link>
                   
                   <button
                     onClick={handleSignOut}
@@ -100,18 +97,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAuth }) => {
             </div>
           ) : (
             <div className="hidden md:flex items-center space-x-3">
-              <button 
-                onClick={() => onOpenAuth?.('signin')}
+              <Link 
+                to="/login"
                 className="font-body px-4 py-2 text-neutral-600 hover:text-primary transition-colors"
               >
                 Sign In
-              </button>
-              <button 
-                onClick={() => onOpenAuth?.('signup')}
+              </Link>
+              <Link 
+                to="/register"
                 className="font-body px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors"
               >
                 Start Free Trial
-              </button>
+              </Link>
             </div>
           )}
 
@@ -145,18 +142,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAuth }) => {
                 Reviews
               </a>
               <div className="pt-4 space-y-2">
-                <button 
-                  onClick={() => onOpenAuth?.('signin')}
-                  className="w-full font-body px-4 py-2 text-neutral-600 hover:text-primary transition-colors text-left"
+                <Link 
+                  to="/login"
+                  className="w-full block font-body px-4 py-2 text-neutral-600 hover:text-primary transition-colors text-center border border-border rounded-lg"
                 >
                   Sign In
-                </button>
-                <button 
-                  onClick={() => onOpenAuth?.('signup')}
-                  className="w-full font-body px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors"
+                </Link>
+                <Link 
+                  to="/register"
+                  className="w-full block font-body px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors text-center"
                 >
                   Start Free Trial
-                </button>
+                </Link>
               </div>
             </nav>
           </div>

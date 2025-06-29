@@ -9,7 +9,8 @@ import { Mentors } from './components/Mentors';
 import { Testimonials } from './components/Testimonials';
 import { Pricing } from './components/Pricing';
 import { Footer } from './components/Footer';
-import { AuthModal } from './components/auth/AuthModal';
+import { LoginPage } from './components/auth/LoginPage';
+import { RegisterPage } from './components/auth/RegisterPage';
 import { EnhancedOnboardingFlow } from './components/onboarding/EnhancedOnboardingFlow';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { ProfileSettings } from './components/profile/ProfileSettings';
@@ -18,32 +19,18 @@ import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { Loader2 } from 'lucide-react';
 
 const LandingPage: React.FC = () => {
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup'>('signin');
-
-  const openAuthModal = (mode: 'signin' | 'signup') => {
-    setAuthModalMode(mode);
-    setAuthModalOpen(true);
-  };
-
   return (
     <div className="min-h-screen bg-background">
-      <Header onOpenAuth={openAuthModal} />
+      <Header />
       <main>
-        <Hero onOpenAuth={openAuthModal} />
+        <Hero />
         <StatsSection />
         <FeaturesShowcase />
         <Mentors />
         <Testimonials />
-        <Pricing onOpenAuth={openAuthModal} />
+        <Pricing />
       </main>
       <Footer />
-      
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        initialMode={authModalMode}
-      />
     </div>
   );
 };
@@ -62,50 +49,63 @@ const AppContent: React.FC = () => {
     );
   }
 
-  // Not authenticated - show landing page
-  if (!user) {
-    return <LandingPage />;
-  }
-
-  // Authenticated but onboarding not completed - show enhanced onboarding
-  if (!profile?.onboarding_completed) {
-    return <EnhancedOnboardingFlow />;
-  }
-
-  // Authenticated and onboarded - show app with header
   return (
-    <div className="min-h-screen">
-      <Header />
-      <div className="pt-16"> {/* Account for fixed header */}
-        <Routes>
-          <Route 
-            path="/" 
-            element={
-              <ProtectedRoute requireOnboarding>
-                <Dashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/profile" 
-            element={
-              <ProtectedRoute requireOnboarding>
-                <ProfileSettings />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/create-mentor" 
-            element={
-              <ProtectedRoute requireOnboarding>
-                <CustomMentorCreation />
-              </ProtectedRoute>
-            } 
-          />
+    <Routes>
+      {/* Public routes */}
+      <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
+      <Route path="/register" element={user ? <Navigate to="/" replace /> : <RegisterPage />} />
+      
+      {/* Protected routes */}
+      {user ? (
+        <>
+          {/* Onboarding check */}
+          {!profile?.onboarding_completed ? (
+            <Route path="*" element={<EnhancedOnboardingFlow />} />
+          ) : (
+            <>
+              {/* Authenticated app routes */}
+              <Route path="/" element={
+                <ProtectedRoute requireOnboarding>
+                  <div className="min-h-screen">
+                    <Header />
+                    <div className="pt-16">
+                      <Dashboard />
+                    </div>
+                  </div>
+                </ProtectedRoute>
+              } />
+              <Route path="/profile" element={
+                <ProtectedRoute requireOnboarding>
+                  <div className="min-h-screen">
+                    <Header />
+                    <div className="pt-16">
+                      <ProfileSettings />
+                    </div>
+                  </div>
+                </ProtectedRoute>
+              } />
+              <Route path="/create-mentor" element={
+                <ProtectedRoute requireOnboarding>
+                  <div className="min-h-screen">
+                    <Header />
+                    <div className="pt-16">
+                      <CustomMentorCreation />
+                    </div>
+                  </div>
+                </ProtectedRoute>
+              } />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </>
+          )}
+        </>
+      ) : (
+        <>
+          {/* Public landing page */}
+          <Route path="/" element={<LandingPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </div>
-    </div>
+        </>
+      )}
+    </Routes>
   );
 };
 

@@ -1,11 +1,8 @@
 import React from 'react';
 import { Play, ArrowRight, Star, Users, Zap, Download, Smartphone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-interface HeroProps {
-  onOpenAuth?: (mode: 'signin' | 'signup') => void;
-}
-
-export const Hero: React.FC<HeroProps> = ({ onOpenAuth }) => {
+export const Hero: React.FC = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-background to-primary-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -33,14 +30,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAuth }) => {
 
             {/* Download Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
-              <button 
-                onClick={() => onOpenAuth?.('signup')}
+              <Link 
+                to="/register"
                 className="group font-body px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary-600 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
               >
                 <Zap className="w-5 h-5" />
                 <span>Start Free Trial</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
               
               <button className="group font-body px-8 py-4 bg-background border border-border text-foreground rounded-lg hover:bg-accent transition-all duration-300 flex items-center justify-center space-x-2 shadow-sm hover:shadow-lg">
                 <Play className="w-5 h-5" />

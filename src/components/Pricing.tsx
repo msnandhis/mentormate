@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { Check, Star, Crown, Zap, ChevronDown, ChevronUp } from 'lucide-react';
-
-interface PricingProps {
-  onOpenAuth?: (mode: 'signin' | 'signup') => void;
-}
+import { Link } from 'react-router-dom';
 
 const plans = [
   {
@@ -88,7 +85,7 @@ const faqData = [
   }
 ];
 
-export const Pricing: React.FC<PricingProps> = ({ onOpenAuth }) => {
+export const Pricing: React.FC = () => {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   const toggleFaq = (index: number) => {
@@ -155,16 +152,16 @@ export const Pricing: React.FC<PricingProps> = ({ onOpenAuth }) => {
                   </div>
 
                   {/* CTA Button */}
-                  <button
-                    onClick={() => onOpenAuth?.('signup')}
-                    className={`w-full font-body px-6 py-3 rounded-lg transition-all duration-300 ${
+                  <Link
+                    to="/register"
+                    className={`w-full font-body px-6 py-3 rounded-lg transition-all duration-300 block text-center ${
                       plan.popular
                         ? 'bg-primary text-white hover:bg-primary-600 shadow-lg hover:shadow-xl'
                         : 'bg-background border border-border text-foreground hover:bg-accent'
                     }`}
                   >
                     {plan.cta}
-                  </button>
+                  </Link>
                 </div>
 
                 {/* Features */}
