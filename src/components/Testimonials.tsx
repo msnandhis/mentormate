@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Star, Quote, MessageSquare } from 'lucide-react';
 
 const testimonials = [

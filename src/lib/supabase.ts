@@ -56,6 +56,11 @@ const getDetailedError = (error: any, context: string) => {
     return new Error('Too many login attempts. Please wait a few minutes and try again.');
   }
   
+  // Don't treat missing auth session as an error - this is normal for unauthenticated users
+  if (error.message?.includes('Auth session missing')) {
+    return null; // Return null instead of an error for missing sessions
+  }
+  
   return error;
 };
 
@@ -264,13 +269,15 @@ export const auth = {
       });
       
       if (error) {
-        return { data: null, error: getDetailedError(error, 'Sign Up') };
+        const detailedError = getDetailedError(error, 'Sign Up');
+        return { data: null, error: detailedError };
       }
       
       return { data, error: null };
     } catch (error) {
       console.error('Sign up error:', error);
-      return { data: null, error: getDetailedError(error, 'Sign Up') };
+      const detailedError = getDetailedError(error, 'Sign Up');
+      return { data: null, error: detailedError };
     }
   },
 
@@ -282,13 +289,15 @@ export const auth = {
       });
       
       if (error) {
-        return { data: null, error: getDetailedError(error, 'Sign In') };
+        const detailedError = getDetailedError(error, 'Sign In');
+        return { data: null, error: detailedError };
       }
       
       return { data, error: null };
     } catch (error) {
       console.error('Sign in error:', error);
-      return { data: null, error: getDetailedError(error, 'Sign In') };
+      const detailedError = getDetailedError(error, 'Sign In');
+      return { data: null, error: detailedError };
     }
   },
 
@@ -297,13 +306,15 @@ export const auth = {
       const { error } = await supabase.auth.signOut();
       
       if (error) {
-        return { error: getDetailedError(error, 'Sign Out') };
+        const detailedError = getDetailedError(error, 'Sign Out');
+        return { error: detailedError };
       }
       
       return { error: null };
     } catch (error) {
       console.error('Sign out error:', error);
-      return { error: getDetailedError(error, 'Sign Out') };
+      const detailedError = getDetailedError(error, 'Sign Out');
+      return { error: detailedError };
     }
   },
 
@@ -312,13 +323,23 @@ export const auth = {
       const { data: { user }, error } = await supabase.auth.getUser();
       
       if (error) {
-        return { user: null, error: getDetailedError(error, 'Get Current User') };
+        const detailedError = getDetailedError(error, 'Get Current User');
+        // If detailedError is null (missing session), don't treat as error
+        if (!detailedError) {
+          return { user: null, error: null };
+        }
+        return { user: null, error: detailedError };
       }
       
       return { user, error: null };
     } catch (error) {
       console.error('Get current user error:', error);
-      return { user: null, error: getDetailedError(error, 'Get Current User') };
+      const detailedError = getDetailedError(error, 'Get Current User');
+      // If detailedError is null (missing session), don't treat as error
+      if (!detailedError) {
+        return { user: null, error: null };
+      }
+      return { user: null, error: detailedError };
     }
   },
 
