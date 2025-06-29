@@ -29,6 +29,12 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
 
 // Helper function to get detailed error information
 const getDetailedError = (error: any, context: string) => {
+  // Don't treat missing auth session as an error - this is normal for unauthenticated users
+  if (error.message?.includes('Auth session missing')) {
+    return null; // Return null instead of an error for missing sessions
+  }
+  
+  // Only log errors that are not "Auth session missing" errors
   console.error(`Supabase ${context} Error:`, error);
   
   // Check for common network/CORS issues
@@ -54,11 +60,6 @@ const getDetailedError = (error: any, context: string) => {
   
   if (error.message?.includes('Too many requests')) {
     return new Error('Too many login attempts. Please wait a few minutes and try again.');
-  }
-  
-  // Don't treat missing auth session as an error - this is normal for unauthenticated users
-  if (error.message?.includes('Auth session missing')) {
-    return null; // Return null instead of an error for missing sessions
   }
   
   return error;
