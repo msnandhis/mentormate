@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, TrendingUp, Calendar, Target, Heart, Activity, Loader2, Lightbulb, Info, ArrowRight, CheckCircle, AlertCircle } from 'lucide-react';
+import { BarChart3, TrendingUp, Calendar, Target, Heart, Activity, Loader2, Lightbulb, Info, ArrowRight, CheckCircle, AlertCircle, Users } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkins } from '../../lib/supabase';
