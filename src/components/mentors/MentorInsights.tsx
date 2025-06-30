@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, TrendingUp, Users, Calendar, Target, MessageSquare, Heart, Loader2, Info, Filter } from 'lucide-react';
+import { BarChart3, TrendingUp, Users, Calendar, Target, MessageSquare, Heart, Loader2, Info, Filter, Lightbulb } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkins, Checkin, mentors as mentorService, Mentor } from '../../lib/supabase';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Cell } from 'recharts';
