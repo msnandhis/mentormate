@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Heart } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -38,7 +38,6 @@ export const Footer: React.FC = () => {
             <ul className="font-body space-y-3">
               <li><Link to="/about" className="text-neutral-400 hover:text-white transition-colors">About Us</Link></li>
               <li><Link to="/contact" className="text-neutral-400 hover:text-white transition-colors">Contact</Link></li>
-              <li><Link to="/careers" className="text-neutral-400 hover:text-white transition-colors">Careers</Link></li>
             </ul>
           </div>
 
@@ -54,15 +53,10 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-neutral-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between">
+        <div className="border-t border-neutral-800 mt-12 pt-8 flex justify-center">
           <p className="font-body text-neutral-400 text-sm">
             © {new Date().getFullYear()} MentorMate. All rights reserved.
           </p>
-          <div className="flex items-center space-x-1 text-neutral-400 text-sm mt-4 md:mt-0">
-            <span className="font-body">Made with</span>
-            <Heart className="w-4 h-4 text-red-500" />
-            <span className="font-body">for habit builders everywhere</span>
-          </div>
         </div>
       </div>
     </footer>

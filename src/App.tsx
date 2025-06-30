@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -21,6 +21,17 @@ import { AboutPage } from './components/pages/AboutPage';
 import { ContactPage } from './components/pages/ContactPage';
 import { PrivacyPage } from './components/pages/PrivacyPage';
 import { TermsPage } from './components/pages/TermsPage';
+
+// ScrollToTop component
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 const LandingPage: React.FC = () => {
   return (
@@ -52,66 +63,69 @@ const AppContent: React.FC = () => {
   }
 
   return (
-    <Routes>
-      {/* Public routes */}
-      <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
-      <Route path="/register" element={user ? <Navigate to="/" replace /> : <RegisterPage />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/privacy" element={<PrivacyPage />} />
-      <Route path="/terms" element={<TermsPage />} />
-      
-      {/* Protected routes */}
-      {user ? (
-        <>
-          {/* Onboarding check */}
-          {!profile?.onboarding_completed ? (
-            <Route path="*" element={<EnhancedOnboardingFlow />} />
-          ) : (
-            <>
-              {/* Authenticated app routes */}
-              <Route path="/" element={
-                <ProtectedRoute requireOnboarding>
-                  <div className="min-h-screen">
-                    <Header />
-                    <div className="pt-16">
-                      <Dashboard />
+    <>
+      <ScrollToTop />
+      <Routes>
+        {/* Public routes */}
+        <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
+        <Route path="/register" element={user ? <Navigate to="/" replace /> : <RegisterPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        
+        {/* Protected routes */}
+        {user ? (
+          <>
+            {/* Onboarding check */}
+            {!profile?.onboarding_completed ? (
+              <Route path="*" element={<EnhancedOnboardingFlow />} />
+            ) : (
+              <>
+                {/* Authenticated app routes */}
+                <Route path="/" element={
+                  <ProtectedRoute requireOnboarding>
+                    <div className="min-h-screen">
+                      <Header />
+                      <div className="pt-16">
+                        <Dashboard />
+                      </div>
                     </div>
-                  </div>
-                </ProtectedRoute>
-              } />
-              <Route path="/profile" element={
-                <ProtectedRoute requireOnboarding>
-                  <div className="min-h-screen">
-                    <Header />
-                    <div className="pt-16">
-                      <ProfileSettings />
+                  </ProtectedRoute>
+                } />
+                <Route path="/profile" element={
+                  <ProtectedRoute requireOnboarding>
+                    <div className="min-h-screen">
+                      <Header />
+                      <div className="pt-16">
+                        <ProfileSettings />
+                      </div>
                     </div>
-                  </div>
-                </ProtectedRoute>
-              } />
-              <Route path="/create-mentor" element={
-                <ProtectedRoute requireOnboarding>
-                  <div className="min-h-screen">
-                    <Header />
-                    <div className="pt-16">
-                      <CustomMentorCreation />
+                  </ProtectedRoute>
+                } />
+                <Route path="/create-mentor" element={
+                  <ProtectedRoute requireOnboarding>
+                    <div className="min-h-screen">
+                      <Header />
+                      <div className="pt-16">
+                        <CustomMentorCreation />
+                      </div>
                     </div>
-                  </div>
-                </ProtectedRoute>
-              } />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          {/* Public landing page */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </>
-      )}
-    </Routes>
+                  </ProtectedRoute>
+                } />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            {/* Public landing page */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </>
+        )}
+      </Routes>
+    </>
   );
 };
 

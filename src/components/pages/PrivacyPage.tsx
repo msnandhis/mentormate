@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Header } from '../Header';
 import { Footer } from '../Footer';
 import { Shield, CheckCircle, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 export const PrivacyPage: React.FC = () => {
   const lastUpdated = 'June 1, 2024';

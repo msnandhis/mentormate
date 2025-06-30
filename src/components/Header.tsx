@@ -15,6 +15,10 @@ export const Header: React.FC = () => {
     navigate('/');
   };
 
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-border shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,16 +36,16 @@ export const Header: React.FC = () => {
           {/* Navigation - Only show on landing page when not authenticated */}
           {!user && (
             <nav className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="font-body text-neutral-600 hover:text-primary transition-colors">
+              <a href="#features" className="font-body text-neutral-600 hover:text-primary transition-colors" onClick={handleLinkClick}>
                 Features
               </a>
-              <a href="#mentors" className="font-body text-neutral-600 hover:text-primary transition-colors">
+              <a href="#mentors" className="font-body text-neutral-600 hover:text-primary transition-colors" onClick={handleLinkClick}>
                 Mentors
               </a>
-              <a href="#pricing" className="font-body text-neutral-600 hover:text-primary transition-colors">
+              <a href="#pricing" className="font-body text-neutral-600 hover:text-primary transition-colors" onClick={handleLinkClick}>
                 Pricing
               </a>
-              <a href="#testimonials" className="font-body text-neutral-600 hover:text-primary transition-colors">
+              <a href="#testimonials" className="font-body text-neutral-600 hover:text-primary transition-colors" onClick={handleLinkClick}>
                 Reviews
               </a>
             </nav>
@@ -129,28 +133,46 @@ export const Header: React.FC = () => {
         {isMenuOpen && !user && (
           <div className="md:hidden py-4 border-t border-border animate-slide-up">
             <nav className="flex flex-col space-y-4">
-              <a href="#features" className="font-body text-neutral-600 hover:text-primary transition-colors">
+              <a 
+                href="#features" 
+                className="font-body text-neutral-600 hover:text-primary transition-colors"
+                onClick={handleLinkClick}
+              >
                 Features
               </a>
-              <a href="#mentors" className="font-body text-neutral-600 hover:text-primary transition-colors">
+              <a 
+                href="#mentors" 
+                className="font-body text-neutral-600 hover:text-primary transition-colors"
+                onClick={handleLinkClick}
+              >
                 Mentors
               </a>
-              <a href="#pricing" className="font-body text-neutral-600 hover:text-primary transition-colors">
+              <a 
+                href="#pricing" 
+                className="font-body text-neutral-600 hover:text-primary transition-colors"
+                onClick={handleLinkClick}
+              >
                 Pricing
               </a>
-              <a href="#testimonials" className="font-body text-neutral-600 hover:text-primary transition-colors">
+              <a 
+                href="#testimonials" 
+                className="font-body text-neutral-600 hover:text-primary transition-colors"
+                onClick={handleLinkClick}
+              >
                 Reviews
               </a>
               <div className="pt-4 space-y-2">
                 <Link 
                   to="/login"
                   className="w-full block font-body px-4 py-2 text-neutral-600 hover:text-primary transition-colors text-center border border-border rounded-lg"
+                  onClick={handleLinkClick}
                 >
                   Sign In
                 </Link>
                 <Link 
                   to="/register"
                   className="w-full block font-body px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors text-center"
+                  onClick={handleLinkClick}
                 >
                   Start Free Trial
                 </Link>
