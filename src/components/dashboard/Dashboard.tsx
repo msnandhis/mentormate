@@ -111,10 +111,21 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background to-accent">
+      {/* Mobile Quick Action - Always visible at top for mobile */}
+      <div className="lg:hidden fixed top-16 left-0 right-0 bg-white z-10 p-4 border-b border-border shadow-sm">
+        <button
+          onClick={() => setShowCheckinForm(true)}
+          className="w-full font-body px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center justify-center space-x-2 shadow-md"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Start Check-in</span>
+        </button>
+      </div>
+
       {/* Main Layout */}
       <div className="flex h-screen">
-        {/* Vertical Sidebar */}
-        <div className="w-64 bg-white border-r border-border flex flex-col">
+        {/* Vertical Sidebar - Hidden on mobile */}
+        <div className="hidden lg:flex lg:w-64 bg-white border-r border-border flex-col h-screen sticky top-16">
           {/* Welcome Section */}
           <div className="p-6 border-b border-border">
             <h1 className="font-heading font-bold text-xl text-foreground mb-1">
@@ -135,7 +146,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Navigation Tabs */}
-          <nav className="flex-1 p-4">
+          <nav className="flex-1 p-4 overflow-y-auto">
             <div className="space-y-2">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
@@ -177,18 +188,43 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 overflow-auto">
-          <div className="p-6">
+        <div className="flex-1 overflow-auto pt-20 lg:pt-0">
+          {/* Mobile Navigation Tabs */}
+          <div className="lg:hidden overflow-x-auto whitespace-nowrap p-2 bg-white border-b border-border">
+            <div className="inline-flex">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id as any)}
+                    className={`flex flex-col items-center space-y-1 px-4 py-2 rounded-lg font-body transition-colors mx-1 ${
+                      isActive
+                        ? 'bg-primary text-white'
+                        : 'bg-accent text-neutral-600'
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    <div className="text-xs font-medium">{tab.label}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="p-4 md:p-6">
             {/* Tab Content */}
             {activeTab === 'overview' && (
-              <div className="space-y-8">
+              <div className="space-y-6">
                 {/* Simplified Hero Section */}
-                <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-8 text-white relative overflow-hidden">
+                <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl p-6 md:p-8 text-white relative overflow-hidden">
                   <div className="relative z-10 max-w-3xl">
-                    <h1 className="font-heading font-bold text-3xl mb-3">
+                    <h1 className="font-heading font-bold text-2xl md:text-3xl mb-2 md:mb-3">
                       Ready for your daily check-in?
                     </h1>
-                    <p className="font-body text-primary-100 text-lg mb-6 leading-relaxed">
+                    <p className="font-body text-primary-100 text-base md:text-lg mb-4 md:mb-6 leading-relaxed">
                       {stats.streak > 0 
                         ? `You're on a ${stats.streak}-day streak! Let's keep the momentum going.`
                         : "Start building your accountability habit today. Your AI mentor is ready to support your journey."
@@ -196,7 +232,7 @@ export const Dashboard: React.FC = () => {
                     </p>
                     <button
                       onClick={() => setShowCheckinForm(true)}
-                      className="bg-white text-primary px-8 py-4 rounded-lg font-body font-semibold hover:bg-primary-50 transition-colors flex items-center space-x-2 shadow-lg hover:shadow-xl"
+                      className="bg-white text-primary px-6 py-3 rounded-lg font-body font-semibold hover:bg-primary-50 transition-colors flex items-center space-x-2 shadow-md hover:shadow-lg"
                     >
                       <Calendar className="w-5 h-5" />
                       <span>Start Daily Check-in</span>
@@ -214,71 +250,71 @@ export const Dashboard: React.FC = () => {
 
                 {/* Stats Overview */}
                 <div>
-                  <h2 className="font-heading font-bold text-2xl text-foreground mb-6">
+                  <h2 className="font-heading font-bold text-xl md:text-2xl text-foreground mb-4 md:mb-6">
                     Your Progress Overview
                   </h2>
                   
-                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="bg-white rounded-xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="bg-white rounded-xl p-4 md:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
                       <div className="flex items-center justify-between mb-4">
-                        <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-                          <Activity className="w-6 h-6 text-primary" />
+                        <div className="w-10 h-10 md:w-12 md:h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                          <Activity className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                         </div>
                         <div className="text-right">
-                          <div className="font-heading font-bold text-2xl text-primary">
+                          <div className="font-heading font-bold text-xl md:text-2xl text-primary">
                             {loading ? '...' : stats.streak}
                           </div>
-                          <div className="font-body text-sm text-neutral-600">Day Streak</div>
+                          <div className="font-body text-xs md:text-sm text-neutral-600">Day Streak</div>
                         </div>
                       </div>
-                      <p className="font-body text-neutral-700 text-sm">
+                      <p className="font-body text-neutral-700 text-xs md:text-sm">
                         {stats.streak > 0 ? 'Keep it up! 🔥' : 'Start your first check-in'}
                       </p>
                     </div>
 
-                    <div className="bg-white rounded-xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
+                    <div className="bg-white rounded-xl p-4 md:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
                       <div className="flex items-center justify-between mb-4">
-                        <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                          <Clock className="w-6 h-6 text-blue-600" />
+                        <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                          <Clock className="w-5 h-5 md:w-6 md:h-6 text-blue-600" />
                         </div>
                         <div className="text-right">
-                          <div className="font-heading font-bold text-2xl text-blue-600">
+                          <div className="font-heading font-bold text-xl md:text-2xl text-blue-600">
                             {loading ? '...' : stats.totalCheckins}
                           </div>
-                          <div className="font-body text-sm text-neutral-600">This Week</div>
+                          <div className="font-body text-xs md:text-sm text-neutral-600">This Week</div>
                         </div>
                       </div>
-                      <p className="font-body text-neutral-700 text-sm">Weekly check-ins</p>
+                      <p className="font-body text-neutral-700 text-xs md:text-sm">Weekly check-ins</p>
                     </div>
 
-                    <div className="bg-white rounded-xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
+                    <div className="bg-white rounded-xl p-4 md:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
                       <div className="flex items-center justify-between mb-4">
-                        <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                          <TrendingUp className="w-6 h-6 text-purple-600" />
+                        <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                          <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />
                         </div>
                         <div className="text-right">
-                          <div className="font-heading font-bold text-2xl text-purple-600">
+                          <div className="font-heading font-bold text-xl md:text-2xl text-purple-600">
                             {loading ? '...' : stats.avgMood > 0 ? `${stats.avgMood}/10` : 'N/A'}
                           </div>
-                          <div className="font-body text-sm text-neutral-600">Avg Mood</div>
+                          <div className="font-body text-xs md:text-sm text-neutral-600">Avg Mood</div>
                         </div>
                       </div>
-                      <p className="font-body text-neutral-700 text-sm">Weekly average</p>
+                      <p className="font-body text-neutral-700 text-xs md:text-sm">Weekly average</p>
                     </div>
 
-                    <div className="bg-white rounded-xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
+                    <div className="bg-white rounded-xl p-4 md:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
                       <div className="flex items-center justify-between mb-4">
-                        <div className="w-12 h-12 bg-success-100 rounded-xl flex items-center justify-center">
-                          <Target className="w-6 h-6 text-success" />
+                        <div className="w-10 h-10 md:w-12 md:h-12 bg-success-100 rounded-xl flex items-center justify-center">
+                          <Target className="w-5 h-5 md:w-6 md:h-6 text-success" />
                         </div>
                         <div className="text-right">
-                          <div className="font-heading font-bold text-2xl text-success">
+                          <div className="font-heading font-bold text-xl md:text-2xl text-success">
                             {loading ? '...' : stats.completionRate > 0 ? `${stats.completionRate}%` : 'N/A'}
                           </div>
-                          <div className="font-body text-sm text-neutral-600">Goal Success</div>
+                          <div className="font-body text-xs md:text-sm text-neutral-600">Goal Success</div>
                         </div>
                       </div>
-                      <p className="font-body text-neutral-700 text-sm">Weekly completion rate</p>
+                      <p className="font-body text-neutral-700 text-xs md:text-sm">Weekly completion rate</p>
                     </div>
                   </div>
                 </div>

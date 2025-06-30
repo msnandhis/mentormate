@@ -258,8 +258,8 @@ export const MentorInsights: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Header & Filters */}
-      <div className="bg-white rounded-xl p-8 border border-border shadow-md">
-        <div className="flex items-center justify-between mb-6">
+      <div className="bg-white rounded-xl p-6 md:p-8 border border-border shadow-md">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center shadow-md">
               <Users className="w-6 h-6 text-white" />
@@ -268,13 +268,13 @@ export const MentorInsights: React.FC = () => {
               <h2 className="font-heading font-bold text-2xl text-foreground">
                 Mentor Performance Analytics
               </h2>
-              <p className="font-body text-neutral-600">
+              <p className="font-body text-neutral-600 text-sm md:text-base">
                 See which mentors work best for different goals
               </p>
             </div>
           </div>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-wrap items-center gap-4">
             {/* Mentor Filter */}
             <div className="relative flex items-center space-x-2">
               <Users className="w-4 h-4 text-neutral-500" />
@@ -326,24 +326,24 @@ export const MentorInsights: React.FC = () => {
               {insights.map((insight, index) => (
                 <div
                   key={`${insight.mentorName}-${index}`}
-                  className="p-6 bg-white rounded-xl border border-border hover:shadow-xl transition-all duration-300"
+                  className="p-4 md:p-6 bg-white rounded-xl border border-border hover:shadow-xl transition-all duration-300"
                 >
                   {/* Mentor Header */}
                   <div className="flex items-center space-x-4 mb-4">
-                    <div className={`w-14 h-14 bg-gradient-to-br ${insight.gradient || 'from-primary-500 to-primary-600'} rounded-xl flex items-center justify-center shadow-md`}>
-                      <span className="font-heading font-bold text-white text-xl">
+                    <div className={`w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br ${insight.gradient || 'from-primary-500 to-primary-600'} rounded-xl flex items-center justify-center shadow-md`}>
+                      <span className="font-heading font-bold text-white text-lg md:text-xl">
                         {insight.mentorName.charAt(0)}
                       </span>
                     </div>
                     <div>
-                      <h4 className="font-heading font-bold text-xl text-foreground">
+                      <h4 className="font-heading font-bold text-lg md:text-xl text-foreground">
                         {insight.mentorName}
                       </h4>
-                      <div className="flex items-center space-x-3">
+                      <div className="flex flex-col md:flex-row md:items-center md:space-x-3">
                         <span className="font-body text-sm text-neutral-600 capitalize">
                           {insight.category} mentor
                         </span>
-                        <div className="flex items-center space-x-1 text-xs text-neutral-500">
+                        <div className="hidden md:flex md:items-center md:space-x-1 text-xs text-neutral-500">
                           <Calendar className="w-3 h-3" />
                           <span>Last: {formatDate(insight.lastUsed)}</span>
                         </div>
@@ -352,36 +352,36 @@ export const MentorInsights: React.FC = () => {
                   </div>
 
                   {/* Stats Grid */}
-                  <div className="grid grid-cols-3 gap-3 mb-5">
+                  <div className="grid grid-cols-3 gap-2 md:gap-3 mb-5">
                     {/* Check-ins */}
-                    <div className="bg-neutral-50 rounded-lg p-3 border border-neutral-100">
+                    <div className="bg-neutral-50 rounded-lg p-2 md:p-3 border border-neutral-100">
                       <div className="flex items-center space-x-1 mb-1 text-neutral-700">
                         <MessageSquare className="w-4 h-4" />
                         <span className="font-body text-xs">Check-ins</span>
                       </div>
-                      <div className="font-heading font-bold text-xl text-foreground">
+                      <div className="font-heading font-bold text-lg md:text-xl text-foreground">
                         {insight.totalCheckins}
                       </div>
                     </div>
 
                     {/* Average Mood */}
-                    <div className={`rounded-lg p-3 border ${getMoodColor(insight.avgMood)}`}>
+                    <div className={`rounded-lg p-2 md:p-3 border ${getMoodColor(insight.avgMood)}`}>
                       <div className="flex items-center space-x-1 mb-1">
                         <Heart className="w-4 h-4" />
                         <span className="font-body text-xs">Avg Mood</span>
                       </div>
-                      <div className="font-heading font-bold text-xl">
+                      <div className="font-heading font-bold text-lg md:text-xl">
                         {insight.avgMood}/10
                       </div>
                     </div>
 
                     {/* Goal Completion */}
-                    <div className={`rounded-lg p-3 border ${getCompletionColor(insight.goalCompletionRate)}`}>
+                    <div className={`rounded-lg p-2 md:p-3 border ${getCompletionColor(insight.goalCompletionRate)}`}>
                       <div className="flex items-center space-x-1 mb-1">
                         <Target className="w-4 h-4" />
                         <span className="font-body text-xs">Completion</span>
                       </div>
-                      <div className="font-heading font-bold text-xl">
+                      <div className="font-heading font-bold text-lg md:text-xl">
                         {insight.goalCompletionRate}%
                       </div>
                     </div>
@@ -416,8 +416,8 @@ export const MentorInsights: React.FC = () => {
 
             {/* Goal Performance Analysis */}
             {goalInsights.length > 0 && (
-              <div className="p-6 bg-white rounded-xl border border-border">
-                <h3 className="font-heading font-semibold text-xl text-foreground mb-6">
+              <div className="p-4 md:p-6 bg-white rounded-xl border border-border">
+                <h3 className="font-heading font-semibold text-xl text-foreground mb-4 md:mb-6">
                   Goal Performance Analysis
                 </h3>
                 
@@ -427,31 +427,39 @@ export const MentorInsights: React.FC = () => {
                     <h4 className="font-body font-medium text-neutral-700 mb-4">
                       Goal Success Rates:
                     </h4>
-                    <ResponsiveContainer width="100%" height={320}>
-                      <BarChart
-                        data={goalInsights.slice(0, 5)}
-                        layout="vertical"
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-                        <XAxis type="number" domain={[0, 100]} tickFormatter={(value) => `${value}%`} />
-                        <YAxis dataKey="goalText" type="category" width={150} tick={{fontSize: 12}} />
-                        <Tooltip 
-                          formatter={(value) => [`${value}%`, 'Success Rate']}
-                          contentStyle={{
-                            backgroundColor: 'white',
-                            border: '1px solid #E4E4E7',
-                            borderRadius: '8px',
-                            fontSize: '12px',
-                          }}
-                        />
-                        <Bar dataKey="successRate" name="Success Rate">
-                          {goalInsights.slice(0, 5).map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={getCompletionBarColor(entry.successRate)} />
-                          ))}
-                        </Bar>
-                      </BarChart>
-                    </ResponsiveContainer>
+                    <div className="h-[320px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                          data={goalInsights.slice(0, 5)}
+                          layout="vertical"
+                          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
+                          <XAxis type="number" domain={[0, 100]} tickFormatter={(value) => `${value}%`} />
+                          <YAxis 
+                            dataKey="goalText" 
+                            type="category" 
+                            width={150} 
+                            tick={{fontSize: 12}}
+                            tickFormatter={(value) => value.length > 18 ? `${value.substring(0, 18)}...` : value}
+                          />
+                          <Tooltip 
+                            formatter={(value) => [`${value}%`, 'Success Rate']}
+                            contentStyle={{
+                              backgroundColor: 'white',
+                              border: '1px solid #E4E4E7',
+                              borderRadius: '8px',
+                              fontSize: '12px',
+                            }}
+                          />
+                          <Bar dataKey="successRate" name="Success Rate">
+                            {goalInsights.slice(0, 5).map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={getCompletionBarColor(entry.successRate)} />
+                            ))}
+                          </Bar>
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
                   </div>
                   
                   {/* Goal Analysis */}
@@ -481,8 +489,8 @@ export const MentorInsights: React.FC = () => {
             )}
             
             {/* Insights Summary */}
-            <div className="p-6 bg-gradient-to-r from-primary-50 to-accent rounded-xl border border-primary-100">
-              <div className="flex items-start space-x-4">
+            <div className="p-4 md:p-6 bg-gradient-to-r from-primary-50 to-accent rounded-xl border border-primary-100">
+              <div className="flex flex-col md:flex-row md:items-start space-y-3 md:space-y-0 md:space-x-4">
                 <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
                   <Lightbulb className="w-5 h-5 text-white" />
                 </div>
