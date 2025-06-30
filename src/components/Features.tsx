@@ -4,35 +4,27 @@ import { Video, MessageSquare, Brain, BarChart3, Clock, Mic } from 'lucide-react
 const features = [
   {
     icon: Video,
-    title: 'Daily Video Check-ins',
-    description: 'Personal video messages from your AI mentor based on your mood, goals, and progress.',
-    bgColor: 'bg-gradient-to-br from-purple-100 to-purple-200',
-    iconColor: 'bg-purple-500',
-    textColor: 'text-purple-900'
+    title: 'AI Video Mentors',
+    description: 'Get personalized video responses from AI mentors who adapt to your unique goals and preferences.',
+    bgColor: 'bg-gradient-to-br from-blue-100 to-blue-200',
+    iconColor: 'bg-blue-500',
+    textColor: 'text-blue-900'
   },
   {
     icon: MessageSquare,
-    title: 'Real-Time Conversations',
-    description: 'Have live video conversations with your AI mentor for deeper support and guidance.',
+    title: 'Live Conversations',
+    description: 'Have real-time video conversations with your mentor whenever you need deeper guidance.',
     bgColor: 'bg-gradient-to-br from-pink-100 to-pink-200',
     iconColor: 'bg-pink-500',
     textColor: 'text-pink-900'
   },
   {
     icon: Brain,
-    title: 'Multiple Mentor Types',
-    description: 'Choose from fitness coaches, wellness guides, productivity experts, and more specialized mentors.',
-    bgColor: 'bg-gradient-to-br from-yellow-100 to-orange-100',
-    iconColor: 'bg-orange-500',
-    textColor: 'text-orange-900'
-  },
-  {
-    icon: Mic,
-    title: 'Voice Cloning',
-    description: 'Create a custom mentor with your own voice for the ultimate personalized experience.',
+    title: 'Smart Analytics',
+    description: 'Track your progress with detailed insights and visualizations of your habit development.',
     bgColor: 'bg-gradient-to-br from-green-100 to-teal-100',
-    iconColor: 'bg-teal-500',
-    textColor: 'text-teal-900'
+    iconColor: 'bg-green-500',
+    textColor: 'text-green-900'
   },
   {
     icon: BarChart3,
@@ -49,6 +41,14 @@ const features = [
     bgColor: 'bg-gradient-to-br from-blue-100 to-indigo-100',
     iconColor: 'bg-blue-500',
     textColor: 'text-blue-900'
+  },
+  {
+    icon: Mic,
+    title: 'Voice Cloning',
+    description: 'Create a custom mentor with your own voice for the ultimate personalized experience.',
+    bgColor: 'bg-gradient-to-br from-green-100 to-teal-100',
+    iconColor: 'bg-teal-500',
+    textColor: 'text-teal-900'
   }
 ];
 
@@ -56,18 +56,6 @@ export const Features: React.FC = () => {
   return (
     <section id="features" className="py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-foreground mb-4">
-            Powerful Features for
-            <span className="text-primary"> Lasting Change</span>
-          </h2>
-          <p className="font-body text-lg text-neutral-600 max-w-2xl mx-auto">
-            Our AI-powered platform combines the best of technology and human psychology 
-            to create accountability that actually works.
-          </p>
-        </div>
-
         {/* Features Grid - Masonry-style layout */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {features.map((feature, index) => {
