@@ -138,51 +138,181 @@ export const MentorQuickStart: React.FC = () => {
 
         {/* Mentors Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {availableMentors.map((mentor) => (
-            <div
-              key={mentor.id}
-              onClick={() => apiStatus === 'connected' && startLiveConversation(mentor)}
-              className={`p-4 border-2 border-border rounded-xl transition-all duration-300 ${
-                apiStatus === 'connected' 
-                  ? 'cursor-pointer hover:border-primary hover:shadow-lg hover:-translate-y-1' 
-                  : 'opacity-50 cursor-not-allowed'
-              }`}
-            >
-              {/* Mentor Image */}
-              <div className="w-full aspect-square mb-3 overflow-hidden rounded-lg">
-                <img 
-                  src={`/${mentor.name.replace(' ', '%20')}.png`} 
-                  alt={mentor.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Mentor Info */}
-              <div className="text-center">
-                <h4 className="font-heading font-bold text-foreground mb-1">
-                  {mentor.name}
-                </h4>
-                <p className="font-body text-xs capitalize mb-2 text-neutral-600">
-                  {mentor.category}
-                </p>
-
-                {/* Live Chat Button */}
-                <div className={`flex items-center justify-center space-x-1 text-xs font-medium px-2 py-1 rounded-full ${
-                  apiStatus === 'connected' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-500'
-                }`}>
-                  <Play className="w-3 h-3" />
-                  <span>{apiStatus === 'connected' ? 'Start Live Chat' : 'Setup Required'}</span>
-                </div>
-
-                {/* Live Support Indicator */}
-                {apiStatus === 'connected' && mentor.avatar_config?.replica_id && (
-                  <div className="mt-1 text-xs text-green-600">
-                    🎥 Live Ready
-                  </div>
-                )}
-              </div>
+          <div
+            key="coach-lex"
+            onClick={() => apiStatus === 'connected' && startLiveConversation(availableMentors.find(m => m.name === "Coach Lex") || availableMentors[0])}
+            className={`p-4 border-2 border-border rounded-xl transition-all duration-300 ${
+              apiStatus === 'connected' 
+                ? 'cursor-pointer hover:border-primary hover:shadow-lg hover:-translate-y-1' 
+                : 'opacity-50 cursor-not-allowed'
+            }`}
+          >
+            {/* Mentor Image */}
+            <div className="w-full aspect-square mb-3 overflow-hidden rounded-lg">
+              <img 
+                src="/Coach%20Lex.png" 
+                alt="Coach Lex"
+                className="w-full h-full object-cover"
+              />
             </div>
-          ))}
+
+            {/* Mentor Info */}
+            <div className="text-center">
+              <h4 className="font-heading font-bold text-foreground mb-1">
+                Coach Lex
+              </h4>
+              <p className="font-body text-xs capitalize mb-2 text-neutral-600">
+                fitness
+              </p>
+
+              {/* Live Chat Button */}
+              <div className={`flex items-center justify-center space-x-1 text-xs font-medium px-2 py-1 rounded-full ${
+                apiStatus === 'connected' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-500'
+              }`}>
+                <Play className="w-3 h-3" />
+                <span>{apiStatus === 'connected' ? 'Start Live Chat' : 'Setup Required'}</span>
+              </div>
+
+              {/* Live Support Indicator */}
+              {apiStatus === 'connected' && (
+                <div className="mt-1 text-xs text-green-600">
+                  🎥 Live Ready
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div
+            key="zenkai"
+            onClick={() => apiStatus === 'connected' && startLiveConversation(availableMentors.find(m => m.name === "ZenKai") || availableMentors[0])}
+            className={`p-4 border-2 border-border rounded-xl transition-all duration-300 ${
+              apiStatus === 'connected' 
+                ? 'cursor-pointer hover:border-primary hover:shadow-lg hover:-translate-y-1' 
+                : 'opacity-50 cursor-not-allowed'
+            }`}
+          >
+            {/* Mentor Image */}
+            <div className="w-full aspect-square mb-3 overflow-hidden rounded-lg">
+              <img 
+                src="/ZenKai.png" 
+                alt="ZenKai"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Mentor Info */}
+            <div className="text-center">
+              <h4 className="font-heading font-bold text-foreground mb-1">
+                ZenKai
+              </h4>
+              <p className="font-body text-xs capitalize mb-2 text-neutral-600">
+                wellness
+              </p>
+
+              {/* Live Chat Button */}
+              <div className={`flex items-center justify-center space-x-1 text-xs font-medium px-2 py-1 rounded-full ${
+                apiStatus === 'connected' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-500'
+              }`}>
+                <Play className="w-3 h-3" />
+                <span>{apiStatus === 'connected' ? 'Start Live Chat' : 'Setup Required'}</span>
+              </div>
+
+              {/* Live Support Indicator */}
+              {apiStatus === 'connected' && (
+                <div className="mt-1 text-xs text-green-600">
+                  🎥 Live Ready
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div
+            key="prof-sophia"
+            onClick={() => apiStatus === 'connected' && startLiveConversation(availableMentors.find(m => m.name === "Prof. Sophia") || availableMentors[0])}
+            className={`p-4 border-2 border-border rounded-xl transition-all duration-300 ${
+              apiStatus === 'connected' 
+                ? 'cursor-pointer hover:border-primary hover:shadow-lg hover:-translate-y-1' 
+                : 'opacity-50 cursor-not-allowed'
+            }`}
+          >
+            {/* Mentor Image */}
+            <div className="w-full aspect-square mb-3 overflow-hidden rounded-lg">
+              <img 
+                src="/Prof%20Sophia.png" 
+                alt="Prof. Sophia"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Mentor Info */}
+            <div className="text-center">
+              <h4 className="font-heading font-bold text-foreground mb-1">
+                Prof. Sophia
+              </h4>
+              <p className="font-body text-xs capitalize mb-2 text-neutral-600">
+                study
+              </p>
+
+              {/* Live Chat Button */}
+              <div className={`flex items-center justify-center space-x-1 text-xs font-medium px-2 py-1 rounded-full ${
+                apiStatus === 'connected' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-500'
+              }`}>
+                <Play className="w-3 h-3" />
+                <span>{apiStatus === 'connected' ? 'Start Live Chat' : 'Setup Required'}</span>
+              </div>
+
+              {/* Live Support Indicator */}
+              {apiStatus === 'connected' && (
+                <div className="mt-1 text-xs text-green-600">
+                  🎥 Live Ready
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div
+            key="dr-maya"
+            onClick={() => apiStatus === 'connected' && startLiveConversation(availableMentors.find(m => m.name === "Dr. Maya") || availableMentors[0])}
+            className={`p-4 border-2 border-border rounded-xl transition-all duration-300 ${
+              apiStatus === 'connected' 
+                ? 'cursor-pointer hover:border-primary hover:shadow-lg hover:-translate-y-1' 
+                : 'opacity-50 cursor-not-allowed'
+            }`}
+          >
+            {/* Mentor Image */}
+            <div className="w-full aspect-square mb-3 overflow-hidden rounded-lg">
+              <img 
+                src="/Dr%20Maya.png" 
+                alt="Dr. Maya"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Mentor Info */}
+            <div className="text-center">
+              <h4 className="font-heading font-bold text-foreground mb-1">
+                Dr. Maya
+              </h4>
+              <p className="font-body text-xs capitalize mb-2 text-neutral-600">
+                career
+              </p>
+
+              {/* Live Chat Button */}
+              <div className={`flex items-center justify-center space-x-1 text-xs font-medium px-2 py-1 rounded-full ${
+                apiStatus === 'connected' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-500'
+              }`}>
+                <Play className="w-3 h-3" />
+                <span>{apiStatus === 'connected' ? 'Start Live Chat' : 'Setup Required'}</span>
+              </div>
+
+              {/* Live Support Indicator */}
+              {apiStatus === 'connected' && (
+                <div className="mt-1 text-xs text-green-600">
+                  🎥 Live Ready
+                </div>
+              )}
+            </div>
+          </div>
 
           {availableMentors.length === 0 && (
             <div className="col-span-full text-center py-8">

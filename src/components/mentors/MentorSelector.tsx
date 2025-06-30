@@ -19,8 +19,8 @@ export const MentorSelector: React.FC<MentorSelectorProps> = ({
   showCustomMentors = false,
   filterByCategory,
   size = 'medium',
-  title = "Choose Your Mentor",
-  description = "Select a mentor that matches your current goals and mindset.",
+  title = "Choose Your Mentor for Today",
+  description = "Each mentor brings a unique perspective and approach to help you achieve your goals.",
 }) => {
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [filteredMentors, setFilteredMentors] = useState<Mentor[]>([]);

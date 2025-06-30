@@ -50,22 +50,11 @@ export const CheckinForm: React.FC<CheckinFormProps> = ({ onComplete }) => {
     if (!user?.id) return;
     
     try {
-      const [goalsResult, mentorsResult] = await Promise.all([
+      const [goalsResult] = await Promise.all([
         goals.getAll(user.id),
-        mentors.getAll(),
       ]);
       
       setUserGoals(goalsResult.goals);
-      
-      // Load default mentor but don't auto-select
-      if (profile?.default_mentor_id) {
-        const defaultMentor = mentorsResult.mentors.find(m => m.id === profile.default_mentor_id);
-        if (defaultMentor) {
-          setSelectedMentor(defaultMentor);
-          // Important: Not setting as completed so user must explicitly click
-          // setCompletedSteps(prev => ({ ...prev, mentor: true }));
-        }
-      }
       
       // Initialize goal status
       setFormData(prev => ({
@@ -172,6 +161,16 @@ export const CheckinForm: React.FC<CheckinFormProps> = ({ onComplete }) => {
   if (currentStep === 'mentor') {
     return (
       <div className="max-w-4xl mx-auto">
+        <div className="flex items-center mb-6">
+          <button
+            onClick={() => onComplete()}
+            className="flex items-center space-x-2 font-body text-neutral-600 hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back</span>
+          </button>
+        </div>
+        
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
@@ -197,7 +196,6 @@ export const CheckinForm: React.FC<CheckinFormProps> = ({ onComplete }) => {
         
         <div className={`transition-all duration-300 ${transitionClass}`}>
           <MentorSelector
-            selectedMentor={selectedMentor}
             onSelectMentor={handleMentorSelect}
             size="medium"
             title="Choose Your Mentor for Today"
