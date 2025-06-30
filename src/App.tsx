@@ -6,6 +6,7 @@ import { Hero } from './components/Hero';
 import { Features } from './components/Features';
 import { FeaturesShowcase } from './components/FeaturesShowcase';
 import { Mentors } from './components/Mentors';
+import { HowItWorks } from './components/HowItWorks';
 import { StatsSection } from './components/StatsSection';
 import { Testimonials } from './components/Testimonials';
 import { Pricing } from './components/Pricing';
@@ -43,6 +44,7 @@ const LandingPage: React.FC = () => {
       <main>
         <Hero />
         <FeaturesShowcase />
+        <HowItWorks />
         <StatsSection />
         <Mentors />
         <Features />

@@ -10,7 +10,7 @@ export const HowItWorks: React.FC = () => {
           {/* Left Column - How It Works Steps */}
           <div>
             <h2 className="font-heading font-bold text-3xl sm:text-4xl text-foreground mb-4">
-              How MentorMate Works?
+              How MentorMate Works
             </h2>
             <p className="font-body text-lg text-neutral-600 mb-12">
               Start building better habits with AI-powered accountability in just 3 simple steps.
