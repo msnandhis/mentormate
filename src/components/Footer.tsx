@@ -25,7 +25,6 @@ export const Footer: React.FC = () => {
           <div>
             <h3 className="font-heading font-semibold text-lg mb-4">Product</h3>
             <ul className="font-body space-y-3">
-              <li><a href="#features" className="text-neutral-400 hover:text-white transition-colors">Features</a></li>
               <li><a href="#pricing" className="text-neutral-400 hover:text-white transition-colors">Pricing</a></li>
               <li><Link to="/register" className="text-neutral-400 hover:text-white transition-colors">Free Trial</Link></li>
               <li><Link to="/login" className="text-neutral-400 hover:text-white transition-colors">Sign In</Link></li>
@@ -47,7 +46,6 @@ export const Footer: React.FC = () => {
             <ul className="font-body space-y-3">
               <li><Link to="/privacy" className="text-neutral-400 hover:text-white transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms" className="text-neutral-400 hover:text-white transition-colors">Terms of Service</Link></li>
-              <li><Link to="/security" className="text-neutral-400 hover:text-white transition-colors">Security</Link></li>
             </ul>
           </div>
         </div>
