@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Star, Zap, Video, MessageSquare, Calendar, Clock, CheckCircle } from 'lucide-react';
+import { ArrowRight, Star, Zap, Video, MessageSquare, Calendar, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Hero: React.FC = () => {
@@ -28,7 +28,7 @@ export const Hero: React.FC = () => {
               track your progress, and keep you motivated every step of the way.
             </p>
 
-            {/* CTA Button */}
+            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
               <Link 
                 to="/register"
@@ -38,12 +38,14 @@ export const Hero: React.FC = () => {
                 <span>Start Free Trial</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-            </div>
-            
-            {/* 24/7 AI Support Badge */}
-            <div className="inline-flex items-center space-x-2 bg-white rounded-lg p-3 shadow-md">
-              <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
-              <span className="font-body font-medium text-foreground">24/7 AI Support Available</span>
+              
+              <a
+                href="#mentors"
+                className="group font-body px-8 py-4 bg-background border border-border text-foreground rounded-lg hover:bg-accent transition-all duration-300 flex items-center justify-center space-x-2 shadow-sm hover:shadow-lg"
+              >
+                <span>View Mentors</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
             </div>
           </div>
 
@@ -111,19 +113,11 @@ export const Hero: React.FC = () => {
               </div>
             </div>
 
-            {/* Features Badge */}
-            <div className="absolute -top-4 right-8 bg-white rounded-lg p-3 shadow-lg animate-pulse-slow">
+            {/* 24/7 AI Support Badge (centered) */}
+            <div className="absolute top-4 right-4 bg-white rounded-lg p-3 shadow-lg">
               <div className="flex items-center space-x-2">
                 <Clock className="w-4 h-4 text-primary" />
                 <span className="font-body text-xs font-medium text-foreground">24/7 AI Support</span>
-              </div>
-            </div>
-
-            {/* Validation Badge */}
-            <div className="absolute -bottom-4 left-8 bg-white rounded-lg p-3 shadow-lg animate-pulse-slow" style={{ animationDelay: '1s' }}>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-success" />
-                <span className="font-body text-xs font-medium text-foreground">Verified Coaches</span>
               </div>
             </div>
           </div>
