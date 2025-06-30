@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Target, TrendingUp, Video, Plus, Activity, Award, Clock, Users, MessageCircle, BarChart3, Lightbulb, ArrowRight } from 'lucide-react';
+import { Calendar, Target, TrendingUp, Video, Plus, Activity, Award, Clock, Users, MessageCircle, BarChart3, Lightbulb, ArrowRight, Heart } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkins } from '../../lib/supabase';
 import { CheckinForm } from '../checkin/CheckinForm';
