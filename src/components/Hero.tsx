@@ -63,27 +63,24 @@ export const Hero: React.FC = () => {
                 </div>
               </div>
               
-              {/* Video Content */}
+              {/* Video Content - Removed the blur overlay */}
               <div className="relative">
                 <div className="aspect-video w-full overflow-hidden">
                   <img 
                     src="/Dr%20Maya.png" 
                     alt="Dr. Maya" 
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-full object-cover object-center"
                   />
                 </div>
                 
-                {/* UI Elements Overlay */}
-                <div className="absolute inset-0 bg-black/20 backdrop-blur-xs"></div>
-                
                 <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
-                  <div className="bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 flex items-center space-x-2">
+                  <div className="bg-black/50 rounded-full px-3 py-1.5 flex items-center space-x-2">
                     <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                     <span className="text-white text-xs font-medium">Recording</span>
                   </div>
                   
                   <div className="flex space-x-2">
-                    <button className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
+                    <button className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
                       <MessageSquare className="w-4 h-4 text-white" />
                     </button>
                     <button className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
