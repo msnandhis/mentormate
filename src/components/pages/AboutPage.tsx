@@ -31,7 +31,7 @@ export const AboutPage: React.FC = () => {
                 <h2 className="font-heading font-bold text-3xl text-foreground mb-4">Our Story</h2>
                 <div className="space-y-4">
                   <p className="font-body text-neutral-700 leading-relaxed">
-                    MentorMate was born during an intense 48-hour hackathon in 2025 when our team identified a critical problem: most people know what they need to do to achieve their goals, but staying consistent is the real challenge.
+                    MentorMate was born during an exciting hackathon in 2025 when our team identified a critical problem: most people know what they need to do to achieve their goals, but staying consistent is the real challenge.
                   </p>
                   <p className="font-body text-neutral-700 leading-relaxed">
                     We created a proof of concept that combined AI-powered video mentors with accountability tracking. The judges were impressed by our innovative approach to habit formation, and we won first place in the AI for Good category.
