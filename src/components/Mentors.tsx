@@ -11,7 +11,8 @@ const mentors = [
     personality: 'Energetic • Supportive • Results-focused',
     expertise: ['exercise', 'nutrition', 'strength training', 'cardio', 'recovery'],
     approach: 'Celebrates wins, pushes through challenges, focuses on progress over perfection',
-    gradient: 'from-red-500 to-orange-500'
+    gradient: 'from-red-500 to-orange-500',
+    image: '/Coach%20Lex.png'
   },
   {
     icon: Heart,
@@ -21,7 +22,8 @@ const mentors = [
     personality: 'Calm • Empathetic • Wise',
     expertise: ['mindfulness', 'stress management', 'meditation', 'work-life balance', 'mental health'],
     approach: 'Emphasizes self-compassion, mindful awareness, and gentle progression',
-    gradient: 'from-blue-500 to-teal-500'
+    gradient: 'from-blue-500 to-teal-500',
+    image: '/ZenKai.png'
   },
   {
     icon: BookOpen,
@@ -31,7 +33,8 @@ const mentors = [
     personality: 'Analytical • Encouraging • Strategic',
     expertise: ['productivity', 'learning techniques', 'time management', 'academic success', 'focus'],
     approach: 'Uses data and insights, breaks down complex goals, systematic approach',
-    gradient: 'from-purple-500 to-pink-500'
+    gradient: 'from-purple-500 to-pink-500',
+    image: '/Prof%20Sophia.png'
   },
   {
     icon: Briefcase,
@@ -41,17 +44,18 @@ const mentors = [
     personality: 'Insightful • Strategic • Empathetic',
     expertise: ['leadership', 'career planning', 'professional development', 'networking', 'performance'],
     approach: 'Balances professional advancement with personal values alignment',
-    gradient: 'from-gray-600 to-gray-800'
+    gradient: 'from-gray-600 to-gray-800',
+    image: '/Dr%20Maya.png'
   }
 ];
 
 export const Mentors: React.FC = () => {
   return (
-    <section id="mentors" className="py-20 bg-gradient-to-br from-primary-50 via-background to-accent">
+    <section id="mentors" className="py-24 bg-gradient-to-br from-primary-50 via-background to-accent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-foreground mb-4">
+          <h2 className="font-heading font-bold text-4xl text-foreground mb-6">
             Meet Your AI
             <span className="text-primary"> Mentor Team</span>
           </h2>
@@ -62,27 +66,29 @@ export const Mentors: React.FC = () => {
         </div>
 
         {/* Mentors Grid */}
-        <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-8 mb-20">
+        <div className="grid lg:grid-cols-4 gap-8 mb-20">
           {mentors.map((mentor, index) => (
             <div
               key={index}
-              className="group relative bg-white rounded-2xl p-6 border border-border hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
+              className="group relative bg-white rounded-2xl overflow-hidden border border-border hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
             >
-              {/* Background Gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${mentor.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-              
-              {/* Icon */}
-              <div className={`w-16 h-16 bg-gradient-to-br ${mentor.gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                <mentor.icon className="w-8 h-8 text-white" />
+              {/* Mentor Image */}
+              <div className="h-64 overflow-hidden">
+                <img 
+                  src={mentor.image} 
+                  alt={mentor.name}
+                  className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-all duration-700"
+                />
               </div>
               
               {/* Content */}
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-3">
+              <div className="p-6">
+                {/* Header with Category Badge */}
+                <div className="flex items-center justify-between mb-4">
                   <h3 className="font-heading font-bold text-xl text-foreground">
                     {mentor.name}
                   </h3>
-                  <span className="font-body text-xs font-medium text-primary bg-primary-50 px-2 py-1 rounded-full">
+                  <span className="font-body text-xs font-medium text-primary bg-primary-50 px-3 py-1.5 rounded-full capitalize">
                     {mentor.category}
                   </span>
                 </div>
@@ -91,22 +97,12 @@ export const Mentors: React.FC = () => {
                   {mentor.description}
                 </p>
                 
-                {/* Personality */}
-                <div className="mb-4">
-                  <div className="font-body text-xs font-medium text-neutral-500 mb-1">
-                    Personality
-                  </div>
-                  <div className="font-body text-sm text-neutral-700">
-                    {mentor.personality}
-                  </div>
-                </div>
-
                 {/* Expertise */}
                 <div className="mb-4">
                   <div className="font-body text-xs font-medium text-neutral-500 mb-2">
                     Expertise
                   </div>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1.5">
                     {mentor.expertise.slice(0, 3).map((skill, skillIndex) => (
                       <span
                         key={skillIndex}
@@ -116,26 +112,37 @@ export const Mentors: React.FC = () => {
                       </span>
                     ))}
                     {mentor.expertise.length > 3 && (
-                      <span className="font-body text-xs text-neutral-500">
-                        +{mentor.expertise.length - 3} more
+                      <span className="font-body text-xs text-neutral-500 self-center">
+                        +{mentor.expertise.length - 3}
                       </span>
                     )}
                   </div>
                 </div>
 
-                {/* Approach */}
-                <div className="border-t border-border pt-4">
-                  <div className="font-body text-xs font-medium text-neutral-500 mb-1">
+                {/* Personality */}
+                <div className="border-t border-border pt-4 pl-1">
+                  <div className="font-body text-xs font-medium text-neutral-500 mb-2">
                     Approach
                   </div>
-                  <div className="font-body text-sm text-neutral-700">
+                  <p className="font-body text-sm text-neutral-700">
                     {mentor.approach}
-                  </div>
+                  </p>
                 </div>
               </div>
-
-              {/* Hover Effect */}
-              <div className="absolute bottom-4 right-4 w-3 h-3 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse" />
+              
+              {/* Gradient Overlay on Hover */}
+              <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}></div>
+              
+              {/* Call-to-action on Hover */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <Link 
+                  to="/register" 
+                  className="w-full bg-white text-primary font-body font-medium rounded-lg py-2 flex items-center justify-center space-x-2"
+                >
+                  <span>Meet {mentor.name}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
           ))}
         </div>

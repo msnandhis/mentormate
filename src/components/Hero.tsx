@@ -41,19 +41,19 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column - Video Conversation Design Element */}
+          {/* Right Column - Dr. Maya Video Interface */}
           <div className="relative">
-            <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-neutral-800 to-neutral-900 shadow-2xl">
-              {/* Video Chat Interface */}
-              <div className="p-4 bg-gradient-to-r from-blue-500 to-teal-500 text-white">
+            <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-3xl shadow-2xl overflow-hidden">
+              {/* Video Chat Header */}
+              <div className="p-4 bg-gradient-to-r from-gray-600 to-gray-800 text-white">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                      <span className="font-bold text-white">Z</span>
+                      <span className="font-bold text-white">M</span>
                     </div>
                     <div>
-                      <h3 className="font-heading font-semibold">ZenKai</h3>
-                      <p className="text-sm opacity-90">Wellness Mentor</p>
+                      <h3 className="font-heading font-semibold">Dr. Maya</h3>
+                      <p className="text-sm opacity-90">Career & Leadership</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -64,42 +64,44 @@ export const Hero: React.FC = () => {
               </div>
               
               {/* Video Content */}
-              <div className="aspect-video bg-black relative">
-                {/* Video Frame */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <img 
-                    src="https://images.pexels.com/photos/8439093/pexels-photo-8439093.jpeg" 
-                    alt="Wellness mentor in video call"
-                    className="object-cover w-full h-full"
-                  />
-                </div>
+              <div className="relative">
+                <img 
+                  src="/Dr%20Maya.png" 
+                  alt="Dr. Maya" 
+                  className="w-full aspect-square object-cover object-top"
+                />
                 
                 {/* UI Elements Overlay */}
+                <div className="absolute inset-0 bg-black/20 backdrop-blur-xs"></div>
+                
                 <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
                   <div className="bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-white text-xs font-medium">Live Conversation</span>
+                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                    <span className="text-white text-xs font-medium">Recording</span>
                   </div>
                   
-                  <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                  <div className="flex space-x-2">
+                    <button className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
                       <MessageSquare className="w-4 h-4 text-white" />
-                    </div>
-                    <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-                      <span className="w-3 h-3 bg-white rounded-sm"></span>
-                    </div>
+                    </button>
+                    <button className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
+                      <Video className="w-4 h-4 text-white" />
+                    </button>
                   </div>
                 </div>
               </div>
               
-              {/* Control Bar */}
-              <div className="p-4 bg-neutral-800 text-white">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-neutral-400">00:15:32</span>
-                  <div className="flex items-center space-x-2 text-xs">
-                    <Calendar className="w-3 h-3 text-neutral-400" />
-                    <span className="text-neutral-400">Daily Session</span>
+              {/* Caption Area */}
+              <div className="p-4 text-white">
+                <div className="font-body text-sm">
+                  "I've analyzed your leadership approach, and I see a pattern of strength in strategic thinking. Let's focus on developing your team delegation skills next..."
+                </div>
+                <div className="mt-2 flex justify-between items-center text-xs text-white/70">
+                  <div className="flex items-center space-x-1">
+                    <Calendar className="w-3 h-3" />
+                    <span>Today, 10:15 AM</span>
                   </div>
+                  <div>3:24 / 5:17</div>
                 </div>
               </div>
             </div>
