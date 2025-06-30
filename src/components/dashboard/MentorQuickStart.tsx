@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Video, Play, Users, Activity, CheckCircle, AlertCircle } from 'lucide-react';
+import { Video, Play, Users, Activity, CheckCircle, AlertCircle, MessageSquare } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { mentors, Mentor } from '../../lib/supabase';
 import { tavusConversationsAPI } from '../../lib/tavus-conversations';

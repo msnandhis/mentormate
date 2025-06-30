@@ -43,7 +43,7 @@ export const Hero: React.FC = () => {
 
           {/* Right Column - Dr. Maya Video Interface */}
           <div className="relative">
-            <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-3xl shadow-2xl overflow-hidden">
+            <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-xl shadow-2xl overflow-hidden">
               {/* Video Chat Header */}
               <div className="p-4 bg-gradient-to-r from-gray-600 to-gray-800 text-white">
                 <div className="flex items-center justify-between">
@@ -65,11 +65,13 @@ export const Hero: React.FC = () => {
               
               {/* Video Content */}
               <div className="relative">
-                <img 
-                  src="/Dr%20Maya.png" 
-                  alt="Dr. Maya" 
-                  className="w-full aspect-square object-cover object-top"
-                />
+                <div className="aspect-video w-full overflow-hidden">
+                  <img 
+                    src="/Dr%20Maya.png" 
+                    alt="Dr. Maya" 
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
                 
                 {/* UI Elements Overlay */}
                 <div className="absolute inset-0 bg-black/20 backdrop-blur-xs"></div>
