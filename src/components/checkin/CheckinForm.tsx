@@ -57,12 +57,13 @@ export const CheckinForm: React.FC<CheckinFormProps> = ({ onComplete }) => {
       
       setUserGoals(goalsResult.goals);
       
-      // Set default mentor from profile or first available
+      // Set default mentor from profile but don't automatically set as completed
       if (profile?.default_mentor_id) {
         const defaultMentor = mentorsResult.mentors.find(m => m.id === profile.default_mentor_id);
         if (defaultMentor) {
           setSelectedMentor(defaultMentor);
-          setCompletedSteps(prev => ({ ...prev, mentor: true }));
+          // Don't set as completed automatically - user needs to click
+          // setCompletedSteps(prev => ({ ...prev, mentor: true }));
         }
       }
       
@@ -195,18 +196,6 @@ export const CheckinForm: React.FC<CheckinFormProps> = ({ onComplete }) => {
         </div>
         
         <div className={`transition-all duration-300 ${transitionClass}`}>
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <Heart className="w-8 h-8 text-white" />
-            </div>
-            <h2 className="font-heading font-bold text-2xl text-foreground mb-2">
-              Daily Check-in
-            </h2>
-            <p className="font-body text-lg text-neutral-600">
-              Which mentor would you like support from today?
-            </p>
-          </div>
-
           <MentorSelector
             selectedMentor={selectedMentor}
             onSelectMentor={handleMentorSelect}

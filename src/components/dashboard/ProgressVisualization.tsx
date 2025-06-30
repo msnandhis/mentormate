@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, TrendingUp, Calendar, Target, Heart, Activity, Loader2, Lightbulb, Info, ArrowRight, CheckCircle, AlertCircle, Users } from 'lucide-react';
+import { BarChart3, TrendingUp, Calendar, Target, Heart, Activity, Loader2, ArrowRight, CheckCircle, AlertCircle, Users } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkins } from '../../lib/supabase';
@@ -34,7 +34,6 @@ export const ProgressVisualization: React.FC = () => {
     totalCheckins: 0,
   });
   const [loading, setLoading] = useState(true);
-  const [showTip, setShowTip] = useState(false);
 
   useEffect(() => {
     if (user?.id) {
@@ -62,9 +61,6 @@ export const ProgressVisualization: React.FC = () => {
       setChartData(processedData.chartData);
       setMentorData(processedData.mentorData);
       setStats(processedData.stats);
-
-      // Show tips for new users
-      setShowTip(userCheckins.length < 5);
 
     } catch (error) {
       console.error('Error loading progress data:', error);
@@ -388,28 +384,6 @@ export const ProgressVisualization: React.FC = () => {
             </div>
           </div>
         </div>
-        
-        {/* Tips for new users */}
-        {showTip && (
-          <div className="mt-6 p-5 bg-primary-50 rounded-xl border border-primary-100">
-            <div className="flex items-start space-x-3">
-              <Lightbulb className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-              <div>
-                <h4 className="font-heading font-semibold text-primary-800 mb-1">
-                  Getting Started with Analytics
-                </h4>
-                <p className="font-body text-primary-700 text-sm mb-3">
-                  Your analytics will become more insightful as you complete more check-ins.
-                  Try to check in regularly to discover patterns in your mood and goal progress.
-                </p>
-                <button className="flex items-center space-x-2 font-body text-sm text-primary font-medium hover:text-primary-600 transition-colors">
-                  <span>Complete your first check-in</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Charts */}
@@ -588,9 +562,8 @@ export const ProgressVisualization: React.FC = () => {
 
             {/* Insights Panel */}
             <div className="bg-white rounded-xl p-8 border border-border shadow-md">
-              <h3 className="font-heading font-semibold text-xl text-foreground mb-6 flex items-center space-x-2">
-                <Lightbulb className="w-5 h-5 text-primary" />
-                <span>Personalized Insights</span>
+              <h3 className="font-heading font-semibold text-xl text-foreground mb-6">
+                Key Insights
               </h3>
               
               {hasData ? (
@@ -639,7 +612,7 @@ export const ProgressVisualization: React.FC = () => {
                   
                   {stats.consistencyScore < 40 && stats.consistencyScore > 0 && (
                     <div className="p-4 bg-orange-50 border border-orange-100 rounded-xl flex items-start space-x-3">
-                      <Info className="w-5 h-5 text-orange-600 mt-0.5" />
+                      <AlertCircle className="w-5 h-5 text-orange-600 mt-0.5" />
                       <div>
                         <h4 className="font-body font-semibold text-orange-800 mb-1">
                           Consistency Opportunity
@@ -672,15 +645,15 @@ export const ProgressVisualization: React.FC = () => {
                     stats.consistencyScore >= 80,
                     stats.consistencyScore < 40 && stats.consistencyScore > 0,
                     stats.currentStreak >= 5
-                  ].filter(Boolean).length < 3 && (
+                  ].filter(Boolean).length < 1 && (
                     <div className="p-4 bg-neutral-50 border border-neutral-100 rounded-xl flex items-start space-x-3">
-                      <Lightbulb className="w-5 h-5 text-neutral-500 mt-0.5" />
+                      <ArrowRight className="w-5 h-5 text-neutral-500 mt-0.5" />
                       <div>
                         <h4 className="font-body font-semibold text-neutral-700 mb-1">
-                          Building Your Analytics
+                          Keep Going
                         </h4>
                         <p className="font-body text-neutral-600 text-sm">
-                          Continue checking in regularly to generate more personalized insights about your habits and progress patterns.
+                          Continue checking in regularly to see more patterns and insights about your progress.
                         </p>
                       </div>
                     </div>

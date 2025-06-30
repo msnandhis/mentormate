@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, Sparkles } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import { Mentor, mentors as mentorService } from '../../lib/supabase';
 import { MentorCard } from './MentorCard';
 
@@ -179,29 +179,6 @@ export const MentorSelector: React.FC<MentorSelectorProps> = ({
           >
             Clear filters
           </button>
-        </div>
-      )}
-
-      {/* Custom Mentor Prompt */}
-      {!showCustomMentors && (
-        <div className="mt-8 p-6 bg-gradient-to-r from-primary-50 to-accent rounded-xl border border-primary-200">
-          <div className="flex items-start space-x-4">
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h3 className="font-heading font-semibold text-lg text-primary-800 mb-2">
-                Want a Custom Mentor?
-              </h3>
-              <p className="font-body text-primary-700 mb-4">
-                Create a personalized mentor using your own voice and preferences. 
-                Available with Premium and Elite plans.
-              </p>
-              <button className="font-body px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors">
-                Learn More
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>

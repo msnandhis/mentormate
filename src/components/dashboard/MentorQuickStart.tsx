@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Video, MessageSquare, Play, Users, Sparkles, Activity, CheckCircle, AlertCircle } from 'lucide-react';
+import { Video, MessageSquare, Play, Users, Activity, CheckCircle, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { mentors, Mentor } from '../../lib/supabase';
 import { tavusConversationsAPI } from '../../lib/tavus-conversations';
@@ -156,13 +156,9 @@ export const MentorQuickStart: React.FC = () => {
             >
               {/* Mentor Icon */}
               <div className={`w-12 h-12 bg-gradient-to-br ${mentor.gradient || 'from-primary-500 to-primary-600'} rounded-xl flex items-center justify-center mb-3 mx-auto`}>
-                {mentor.name === 'ZenKai' ? (
-                  <Sparkles className="w-6 h-6 text-white" />
-                ) : (
-                  <span className="font-heading font-bold text-white text-lg">
-                    {mentor.name.charAt(0)}
-                  </span>
-                )}
+                <span className="font-heading font-bold text-white text-lg">
+                  {mentor.name.charAt(0)}
+                </span>
               </div>
 
               {/* Mentor Info */}
@@ -215,43 +211,6 @@ export const MentorQuickStart: React.FC = () => {
               </p>
             </div>
           )}
-        </div>
-
-        {/* Feature Highlights */}
-        <div className="mt-6 grid md:grid-cols-3 gap-4">
-          <div className={`p-4 rounded-lg ${apiStatus === 'connected' ? 'bg-gradient-to-r from-primary-50 to-accent' : 'bg-gray-50'}`}>
-            <div className="flex items-center space-x-3">
-              <Video className={`w-5 h-5 ${apiStatus === 'connected' ? 'text-primary' : 'text-gray-400'}`} />
-              <div>
-                <h5 className={`font-body font-semibold ${apiStatus === 'connected' ? 'text-primary-800' : 'text-gray-600'}`}>
-                  Live Video Chat
-                </h5>
-                <p className={`font-body text-xs ${apiStatus === 'connected' ? 'text-primary-700' : 'text-gray-500'}`}>
-                  {apiStatus === 'connected' ? 'Real-time conversations' : 'Requires API setup'}
-                </p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg">
-            <div className="flex items-center space-x-3">
-              <MessageSquare className="w-5 h-5 text-blue-600" />
-              <div>
-                <h5 className="font-body font-semibold text-blue-800">Instant Responses</h5>
-                <p className="font-body text-xs text-blue-700">AI-powered interactions</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg">
-            <div className="flex items-center space-x-3">
-              <Users className="w-5 h-5 text-purple-600" />
-              <div>
-                <h5 className="font-body font-semibold text-purple-800">Multiple Mentors</h5>
-                <p className="font-body text-xs text-purple-700">Choose your style</p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* API Status Summary */}
