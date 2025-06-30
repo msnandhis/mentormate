@@ -43,7 +43,7 @@ export const LoginPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background to-accent flex flex-col">
       <Header />
       
-      <div className="flex-1 flex items-center justify-center p-4">
+      <div className="flex-1 flex items-center justify-center p-4 pt-20">
         <div className="w-full max-w-md">
           {/* Main Card */}
           <div className="bg-white rounded-2xl p-8 shadow-2xl border border-white/50">
