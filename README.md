@@ -1,10 +1,8 @@
 # MentorMate - One App for Every Goal
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/d18d3be8-7de3-45df-b59d-c97eea75cf14/deploy-status)](https://app.netlify.com/sites/mentor-mate/deploys)
 
 [Live Demo: mentor-mate.netlify.app](https://mentor-mate.netlify.app)
 
-![MentorMate Banner](https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)
 
 ## About MentorMate
 
