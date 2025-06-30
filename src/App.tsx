@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import { Features } from './components/Features';
+import { FeaturesShowcase } from './components/FeaturesShowcase';
+import { Mentors } from './components/Mentors';
 import { StatsSection } from './components/StatsSection';
 import { Testimonials } from './components/Testimonials';
 import { Pricing } from './components/Pricing';
@@ -39,7 +42,10 @@ const LandingPage: React.FC = () => {
       <Header />
       <main>
         <Hero />
+        <FeaturesShowcase />
         <StatsSection />
+        <Mentors />
+        <Features />
         <Testimonials />
         <Pricing />
       </main>
