@@ -16,6 +16,12 @@ import { CustomMentorCreation } from './components/mentors/CustomMentorCreation'
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { Loader2 } from 'lucide-react';
 
+// Import new pages
+import { AboutPage } from './components/pages/AboutPage';
+import { ContactPage } from './components/pages/ContactPage';
+import { PrivacyPage } from './components/pages/PrivacyPage';
+import { TermsPage } from './components/pages/TermsPage';
+
 const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -50,6 +56,10 @@ const AppContent: React.FC = () => {
       {/* Public routes */}
       <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
       <Route path="/register" element={user ? <Navigate to="/" replace /> : <RegisterPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
       
       {/* Protected routes */}
       {user ? (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Brain, Zap } from 'lucide-react';
+import { Clock, Zap, Shield } from 'lucide-react';
 
 export const StatsSection: React.FC = () => {
   return (
@@ -20,19 +20,19 @@ export const StatsSection: React.FC = () => {
           
           <div className="bg-neutral-700/30 backdrop-blur-sm rounded-xl p-6 border border-neutral-700">
             <div className="flex items-center justify-center space-x-4">
-              <div className="w-12 h-12 bg-warning rounded-xl flex items-center justify-center">
-                <Brain className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 bg-success rounded-xl flex items-center justify-center">
+                <Shield className="w-6 h-6 text-white" />
               </div>
               <div>
-                <div className="font-heading font-bold text-3xl text-white">4 Types</div>
-                <p className="font-body text-neutral-300">Specialized AI Mentors</p>
+                <div className="font-heading font-bold text-3xl text-white">100%</div>
+                <p className="font-body text-neutral-300">Secure & Private</p>
               </div>
             </div>
           </div>
           
           <div className="bg-neutral-700/30 backdrop-blur-sm rounded-xl p-6 border border-neutral-700">
             <div className="flex items-center justify-center space-x-4">
-              <div className="w-12 h-12 bg-success rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-warning rounded-xl flex items-center justify-center">
                 <Zap className="w-6 h-6 text-white" />
               </div>
               <div>
