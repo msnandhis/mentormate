@@ -44,10 +44,10 @@ const LandingPage: React.FC = () => {
       <main>
         <Hero />
         <FeaturesShowcase />
-        <HowItWorks />
+    
         <StatsSection />
         <Mentors />
-        <Features />
+    
         <Testimonials />
         <Pricing />
       </main>
