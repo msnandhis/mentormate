@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Star, Users, Zap, Video, MessageSquare, Calendar } from 'lucide-react';
+import { ArrowRight, Star, Zap, Video, MessageSquare, Calendar, Clock, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Hero: React.FC = () => {
@@ -39,6 +39,12 @@ export const Hero: React.FC = () => {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
+            
+            {/* 24/7 AI Support Badge */}
+            <div className="inline-flex items-center space-x-2 bg-white rounded-lg p-3 shadow-md">
+              <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
+              <span className="font-body font-medium text-foreground">24/7 AI Support Available</span>
+            </div>
           </div>
 
           {/* Right Column - Dr. Maya Video Interface */}
@@ -63,7 +69,7 @@ export const Hero: React.FC = () => {
                 </div>
               </div>
               
-              {/* Video Content - Removed the blur overlay */}
+              {/* Video Content */}
               <div className="relative">
                 <div className="aspect-video w-full overflow-hidden">
                   <img 
@@ -105,18 +111,19 @@ export const Hero: React.FC = () => {
               </div>
             </div>
 
-            {/* Floating Elements */}
+            {/* Features Badge */}
             <div className="absolute -top-4 right-8 bg-white rounded-lg p-3 shadow-lg animate-pulse-slow">
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-success rounded-full" />
-                <span className="font-body text-xs font-medium text-foreground">Live AI Support</span>
+                <Clock className="w-4 h-4 text-primary" />
+                <span className="font-body text-xs font-medium text-foreground">24/7 AI Support</span>
               </div>
             </div>
 
+            {/* Validation Badge */}
             <div className="absolute -bottom-4 left-8 bg-white rounded-lg p-3 shadow-lg animate-pulse-slow" style={{ animationDelay: '1s' }}>
               <div className="flex items-center space-x-2">
-                <Users className="w-4 h-4 text-primary" />
-                <span className="font-body text-xs font-medium text-foreground">50k+ Users</span>
+                <CheckCircle className="w-4 h-4 text-success" />
+                <span className="font-body text-xs font-medium text-foreground">Verified Coaches</span>
               </div>
             </div>
           </div>
