@@ -31,16 +31,16 @@ export const AboutPage: React.FC = () => {
                 <h2 className="font-heading font-bold text-3xl text-foreground mb-4">Our Story</h2>
                 <div className="space-y-4">
                   <p className="font-body text-neutral-700 leading-relaxed">
-                    MentorMate was born from a simple observation: most people know what they need to do to achieve their goals, but staying consistent is the real challenge.
+                    MentorMate was born during an intense 48-hour hackathon in 2025 when our team identified a critical problem: most people know what they need to do to achieve their goals, but staying consistent is the real challenge.
                   </p>
                   <p className="font-body text-neutral-700 leading-relaxed">
-                    Founded in 2024, we set out to create an accountability system that combines the science of habit formation with the latest advances in artificial intelligence.
+                    We created a proof of concept that combined AI-powered video mentors with accountability tracking. The judges were impressed by our innovative approach to habit formation, and we won first place in the AI for Good category.
                   </p>
                   <p className="font-body text-neutral-700 leading-relaxed">
-                    Our team of behavioral scientists, AI researchers, and product designers developed a platform that provides personalized mentorship that adapts to your unique needs, preferences, and goals.
+                    After the hackathon, we received overwhelming feedback from early testers who saw real results from using our prototype. We decided to turn our hackathon project into a full-fledged platform, refining our AI models and user experience.
                   </p>
                   <p className="font-body text-neutral-700 leading-relaxed">
-                    Today, MentorMate helps thousands of people stick to their goals and build lasting habits across fitness, wellness, learning, and career development.
+                    Today, MentorMate helps thousands of people stick to their goals and build lasting habits across fitness, wellness, learning, and career development through personalized AI mentorship.
                   </p>
                 </div>
               </div>
@@ -132,58 +132,42 @@ export const AboutPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Team Section */}
+        {/* Hackathon Journey */}
         <section className="container mx-auto px-4 md:px-8 mb-16">
-          <h2 className="font-heading font-bold text-3xl text-center text-foreground mb-12">Our Leadership Team</h2>
+          <h2 className="font-heading font-bold text-3xl text-center text-foreground mb-12">Our Hackathon Journey</h2>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg border border-border">
-              <div className="h-48 bg-neutral-200">
-                <img 
-                  src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" 
-                  alt="Sarah Johnson" 
-                  className="w-full h-full object-cover" 
-                />
+          <div className="bg-white rounded-xl p-8 border border-border shadow-xl">
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-primary-50 rounded-xl border border-primary-100">
+                <h3 className="font-heading font-bold text-xl text-foreground mb-4">Inspiration</h3>
+                <p className="font-body text-neutral-700">
+                  We were inspired by the gap between intention and action in habit formation. Research shows that 92% of people fail to achieve their goals without proper accountability. We saw an opportunity to leverage AI to bridge this gap.
+                </p>
               </div>
-              <div className="p-6">
-                <h3 className="font-heading font-bold text-xl text-foreground">Sarah Johnson</h3>
-                <p className="font-body text-primary font-medium mb-3">CEO & Co-founder</p>
-                <p className="font-body text-neutral-600 text-sm">
-                  Former behavioral scientist with 10+ years of experience in habit formation research and product development.
+              
+              <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl border border-blue-100">
+                <h3 className="font-heading font-bold text-xl text-foreground mb-4">Building Process</h3>
+                <p className="font-body text-neutral-700">
+                  During the hackathon, we focused on creating AI personas with distinct mentorship styles. We built a prototype with daily video check-ins and a basic analytics dashboard to demonstrate the concept of personalized accountability.
+                </p>
+              </div>
+              
+              <div className="text-center p-6 bg-gradient-to-br from-green-50 to-blue-50 rounded-xl border border-green-100">
+                <h3 className="font-heading font-bold text-xl text-foreground mb-4">Challenges</h3>
+                <p className="font-body text-neutral-700">
+                  Our biggest challenge was designing AI mentors that felt genuinely personal and adaptive. We also faced technical hurdles in real-time video generation and integrating behavioral science into our algorithm design.
                 </p>
               </div>
             </div>
             
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg border border-border">
-              <div className="h-48 bg-neutral-200">
-                <img 
-                  src="https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" 
-                  alt="Michael Chen" 
-                  className="w-full h-full object-cover" 
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="font-heading font-bold text-xl text-foreground">Michael Chen</h3>
-                <p className="font-body text-primary font-medium mb-3">CTO & Co-founder</p>
-                <p className="font-body text-neutral-600 text-sm">
-                  AI researcher with expertise in natural language processing and conversational AI systems.
+            <div className="mt-8 p-6 bg-gradient-to-r from-primary-50 to-accent rounded-xl border border-primary-100">
+              <h3 className="font-heading font-bold text-xl text-primary-800 text-center mb-4">What We Learned</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <p className="font-body text-neutral-700">
+                  The hackathon taught us the importance of user-centered design in AI applications. We discovered that users respond better to mentors with distinct personalities and communication styles rather than generic AI assistance.
                 </p>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg border border-border">
-              <div className="h-48 bg-neutral-200">
-                <img 
-                  src="https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" 
-                  alt="Amara Okafor" 
-                  className="w-full h-full object-cover" 
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="font-heading font-bold text-xl text-foreground">Amara Okafor</h3>
-                <p className="font-body text-primary font-medium mb-3">Chief Product Officer</p>
-                <p className="font-body text-neutral-600 text-sm">
-                  Product leader with experience designing user-centered experiences at leading tech companies.
+                <p className="font-body text-neutral-700">
+                  We also learned that data visualization and progress tracking are just as important as the AI interactions themselves. Users need to see their progress to stay motivated and engaged with the platform.
                 </p>
               </div>
             </div>
