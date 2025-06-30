@@ -60,14 +60,6 @@ export const Dashboard: React.FC = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-background to-accent py-8">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-6">
-            <button
-              onClick={() => setShowCheckinForm(false)}
-              className="font-body text-neutral-600 hover:text-foreground transition-colors"
-            >
-              ← Back to Dashboard
-            </button>
-          </div>
           <CheckinForm onComplete={handleCheckinComplete} />
         </div>
       </div>
@@ -255,66 +247,65 @@ export const Dashboard: React.FC = () => {
                   </h2>
                   
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="bg-white rounded-xl p-4 md:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="w-10 h-10 md:w-12 md:h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-                          <Activity className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-                        </div>
-                        <div className="text-right">
-                          <div className="font-heading font-bold text-xl md:text-2xl text-primary">
-                            {loading ? '...' : stats.streak}
-                          </div>
-                          <div className="font-body text-xs md:text-sm text-neutral-600">Day Streak</div>
-                        </div>
+                    {/* Day Streak KPI */}
+                    <div className="bg-white rounded-xl p-4 border border-primary-100 shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Activity className="w-5 h-5 text-primary" />
+                        <div className="font-body text-sm text-neutral-700">Day Streak</div>
                       </div>
-                      <p className="font-body text-neutral-700 text-xs md:text-sm">
-                        {stats.streak > 0 ? 'Keep it up! 🔥' : 'Start your first check-in'}
-                      </p>
+                      <div className="flex items-center space-x-2">
+                        <div className="font-heading font-bold text-2xl text-primary">
+                          {loading ? '...' : stats.streak}
+                        </div>
+                        {stats.streak > 0 && (
+                          <span className="text-lg">🔥</span>
+                        )}
+                      </div>
+                      <div className="mt-1 text-xs text-neutral-600">
+                        {stats.streak > 0 ? 'Keep it up!' : 'Start your first check-in'}
+                      </div>
                     </div>
 
-                    <div className="bg-white rounded-xl p-4 md:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                          <Clock className="w-5 h-5 md:w-6 md:h-6 text-blue-600" />
-                        </div>
-                        <div className="text-right">
-                          <div className="font-heading font-bold text-xl md:text-2xl text-blue-600">
-                            {loading ? '...' : stats.totalCheckins}
-                          </div>
-                          <div className="font-body text-xs md:text-sm text-neutral-600">This Week</div>
-                        </div>
+                    {/* Weekly Check-ins KPI */}
+                    <div className="bg-white rounded-xl p-4 border border-blue-100 shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Clock className="w-5 h-5 text-blue-600" />
+                        <div className="font-body text-sm text-neutral-700">Weekly Check-ins</div>
                       </div>
-                      <p className="font-body text-neutral-700 text-xs md:text-sm">Weekly check-ins</p>
+                      <div className="font-heading font-bold text-2xl text-blue-600">
+                        {loading ? '...' : stats.totalCheckins}
+                      </div>
+                      <div className="mt-1 text-xs text-neutral-600">
+                        This week
+                      </div>
                     </div>
 
-                    <div className="bg-white rounded-xl p-4 md:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                          <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />
-                        </div>
-                        <div className="text-right">
-                          <div className="font-heading font-bold text-xl md:text-2xl text-purple-600">
-                            {loading ? '...' : stats.avgMood > 0 ? `${stats.avgMood}/10` : 'N/A'}
-                          </div>
-                          <div className="font-body text-xs md:text-sm text-neutral-600">Avg Mood</div>
-                        </div>
+                    {/* Average Mood KPI */}
+                    <div className="bg-white rounded-xl p-4 border border-purple-100 shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Heart className="w-5 h-5 text-purple-600" />
+                        <div className="font-body text-sm text-neutral-700">Avg Mood</div>
                       </div>
-                      <p className="font-body text-neutral-700 text-xs md:text-sm">Weekly average</p>
+                      <div className="font-heading font-bold text-2xl text-purple-600">
+                        {loading ? '...' : stats.avgMood > 0 ? `${stats.avgMood}/10` : 'N/A'}
+                      </div>
+                      <div className="mt-1 text-xs text-neutral-600">
+                        Weekly average
+                      </div>
                     </div>
 
-                    <div className="bg-white rounded-xl p-4 md:p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="w-10 h-10 md:w-12 md:h-12 bg-success-100 rounded-xl flex items-center justify-center">
-                          <Target className="w-5 h-5 md:w-6 md:h-6 text-success" />
-                        </div>
-                        <div className="text-right">
-                          <div className="font-heading font-bold text-xl md:text-2xl text-success">
-                            {loading ? '...' : stats.completionRate > 0 ? `${stats.completionRate}%` : 'N/A'}
-                          </div>
-                          <div className="font-body text-xs md:text-sm text-neutral-600">Goal Success</div>
-                        </div>
+                    {/* Goal Success KPI */}
+                    <div className="bg-white rounded-xl p-4 border border-success-100 shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Target className="w-5 h-5 text-success" />
+                        <div className="font-body text-sm text-neutral-700">Goal Success</div>
                       </div>
-                      <p className="font-body text-neutral-700 text-xs md:text-sm">Weekly completion rate</p>
+                      <div className="font-heading font-bold text-2xl text-success">
+                        {loading ? '...' : stats.completionRate > 0 ? `${stats.completionRate}%` : 'N/A'}
+                      </div>
+                      <div className="mt-1 text-xs text-neutral-600">
+                        Weekly completion rate
+                      </div>
                     </div>
                   </div>
                 </div>
