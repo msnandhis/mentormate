@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Video, MessageSquare, Play, Users, Activity, CheckCircle, AlertCircle } from 'lucide-react';
+import { Video, Play, Users, Activity, CheckCircle, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { mentors, Mentor } from '../../lib/supabase';
 import { tavusConversationsAPI } from '../../lib/tavus-conversations';
@@ -146,19 +146,15 @@ export const MentorQuickStart: React.FC = () => {
                 apiStatus === 'connected' 
                   ? 'cursor-pointer hover:border-primary hover:shadow-lg hover:-translate-y-1' 
                   : 'opacity-50 cursor-not-allowed'
-              } ${
-                mentor.name === 'ZenKai' ? 'bg-gradient-to-br from-blue-50 to-teal-50' : 
-                mentor.name === 'Coach Lex' ? 'bg-gradient-to-br from-red-50 to-orange-50' :
-                mentor.name === 'Prof. Sophia' ? 'bg-gradient-to-br from-purple-50 to-pink-50' :
-                mentor.name === 'Dr. Maya' ? 'bg-gradient-to-br from-gray-50 to-gray-100' :
-                'bg-white'
               }`}
             >
-              {/* Mentor Icon */}
-              <div className={`w-12 h-12 bg-gradient-to-br ${mentor.gradient || 'from-primary-500 to-primary-600'} rounded-xl flex items-center justify-center mb-3 mx-auto`}>
-                <span className="font-heading font-bold text-white text-lg">
-                  {mentor.name.charAt(0)}
-                </span>
+              {/* Mentor Image */}
+              <div className="w-full aspect-square mb-3 overflow-hidden rounded-lg">
+                <img 
+                  src={`/${mentor.name.replace(' ', '%20')}.png`} 
+                  alt={mentor.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               {/* Mentor Info */}
@@ -166,25 +162,13 @@ export const MentorQuickStart: React.FC = () => {
                 <h4 className="font-heading font-bold text-foreground mb-1">
                   {mentor.name}
                 </h4>
-                <p className={`font-body text-xs capitalize mb-2 ${
-                  mentor.name === 'ZenKai' ? 'text-blue-600' : 
-                  mentor.name === 'Coach Lex' ? 'text-red-600' :
-                  mentor.name === 'Prof. Sophia' ? 'text-purple-600' :
-                  mentor.name === 'Dr. Maya' ? 'text-gray-600' :
-                  'text-neutral-600'
-                }`}>
+                <p className="font-body text-xs capitalize mb-2 text-neutral-600">
                   {mentor.category}
                 </p>
 
                 {/* Live Chat Button */}
                 <div className={`flex items-center justify-center space-x-1 text-xs font-medium px-2 py-1 rounded-full ${
-                  apiStatus === 'connected' ? (
-                    mentor.name === 'ZenKai' ? 'bg-blue-100 text-blue-700' : 
-                    mentor.name === 'Coach Lex' ? 'bg-red-100 text-red-700' :
-                    mentor.name === 'Prof. Sophia' ? 'bg-purple-100 text-purple-700' :
-                    mentor.name === 'Dr. Maya' ? 'bg-gray-100 text-gray-700' :
-                    'bg-primary-100 text-primary-700'
-                  ) : 'bg-gray-100 text-gray-500'
+                  apiStatus === 'connected' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-500'
                 }`}>
                   <Play className="w-3 h-3" />
                   <span>{apiStatus === 'connected' ? 'Start Live Chat' : 'Setup Required'}</span>
